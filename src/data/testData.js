@@ -1,4 +1,4 @@
-let testCustomers = [
+let testCustomerData = [
   {
     "id": 1,
     "name": "Leatha Ullrich"
@@ -41,7 +41,7 @@ let testCustomers = [
   }
 ]
 
-let testRooms = [
+let testRoomData = [
   {
     "number": 1,
     "roomType": "residential suite",
@@ -124,6 +124,69 @@ let testRooms = [
   }
 ]
 
+let testBookingData = [
+  {
+    "id": "5fwrgu4i7k55hl6sz",
+    "userID": 1,
+    "date": "2022/12/22",
+    "roomNumber": 5
+  },
+  {
+    "id": "5fwrgu4i7k55hl6t5",
+    "userID": 4,
+    "date": "2022/01/24",
+    "roomNumber": 8
+  },
+  {
+    "id": "5fwrgu4i7k55hl6t6",
+    "userID": 1,
+    "date": "2022/01/10",
+    "roomNumber": 2
+  },
+  {
+    "id": "5fwrgu4i7k55hl6t7",
+    "userID": 10,
+    "date": "2022/02/16",
+    "roomNumber": 7
+  },
+  {
+    "id": "5fwrgu4i7k55hl6t8",
+    "userID": 1,
+    "date": "2022/02/05",
+    "roomNumber": 4
+  },
+  {
+    "id": "5fwrgu4i7k55hl6t9",
+    "userID": 8,
+    "date": "2023/12/14",
+    "roomNumber": 3
+  },
+  {
+    "id": "5fwrgu4i7k55hl6ta",
+    "userID": 5,
+    "date": "2022/01/11",
+    "roomNumber": 9
+  },
+  {
+    "id": "5fwrgu4i7k55hl6tb",
+    "userID": 6,
+    "date": "2022/02/06",
+    "roomNumber": 6
+  },
+  {
+    "id": "5fwrgu4i7k55hl6tc",
+    "userID": 1,
+    "date": "2023/11/30",
+    "roomNumber": 7
+  },
+  {
+    "id": "5fwrgu4i7k55hl6td",
+    "userID": 7,
+    "date": "2022/01/31",
+    "roomNumber": 10
+  }
+]
+
 let testBookings = [
   {
     "id": "5fwrgu4i7k55hl6sz",
@@ -134,10 +197,10 @@ let testBookings = [
   },
   {
     "id": "5fwrgu4i7k55hl6t5",
-    "userID": 43,
+    "userID": 4,
     "date": "2022/01/24",
-    "roomNumber": 24,
-    "amount": 327.24
+    "roomNumber": 8,
+    "amount": 261.26
   },
   {
     "id": "5fwrgu4i7k55hl6t6",
@@ -148,10 +211,10 @@ let testBookings = [
   },
   {
     "id": "5fwrgu4i7k55hl6t7",
-    "userID": 20,
+    "userID": 10,
     "date": "2022/02/16",
     "roomNumber": 7,
-    "amount": 1
+    "amount": 231.46
   },
   {
     "id": "5fwrgu4i7k55hl6t8",
@@ -162,24 +225,24 @@ let testBookings = [
   },
   {
     "id": "5fwrgu4i7k55hl6t9",
-    "userID": 38,
+    "userID": 8,
     "date": "2023/12/14",
-    "roomNumber": 14,
-    "amount": 1
+    "roomNumber": 3,
+    "amount": 491.14
   },
   {
     "id": "5fwrgu4i7k55hl6ta",
-    "userID": 25,
+    "userID": 5,
     "date": "2022/01/11",
     "roomNumber": 9,
-    "amount": 1
+    "amount": 200.39
   },
   {
     "id": "5fwrgu4i7k55hl6tb",
-    "userID": 49,
+    "userID": 6,
     "date": "2022/02/06",
-    "roomNumber": 5,
-    "amount": 1
+    "roomNumber": 6,
+    "amount": 397.02
   },
   {
     "id": "5fwrgu4i7k55hl6tc",
@@ -190,10 +253,10 @@ let testBookings = [
   },
   {
     "id": "5fwrgu4i7k55hl6td",
-    "userID": 27,
+    "userID": 7,
     "date": "2022/01/31",
-    "roomNumber": 20,
-    "amount": 1
+    "roomNumber": 10,
+    "amount": 497.64
   }
 ]
 
@@ -432,8 +495,9 @@ let sortedBookings = [{
 }]
 
 module.exports = {
-  testCustomers,
-  testRooms,
+  testCustomerData,
+  testRoomData,
+  testBookingData,
   testBookings,
   customerBookings,
   oldBookings,
