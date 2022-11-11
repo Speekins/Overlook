@@ -16,6 +16,12 @@ let allBookingsURL = 'http://localhost:3001/api/v1/bookings'
 let allBookings
 let allRoomsURL = 'http://localhost:3001/api/v1/rooms'
 let allRooms
+let today = new Date()
+let day = today.getDate()
+let month = today.getMonth() + 1
+let year = today.getFullYear()
+let time = `${today.getHours()}:${today.getMinutes()}:${today.getSeconds()}`
+let date = `${month}/${day}/${year}`
 
 
 addEventListener('load', () => {
