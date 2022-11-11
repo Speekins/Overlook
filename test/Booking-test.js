@@ -15,14 +15,14 @@ describe('booking', () => {
   })
 
   it('should have a user id', () => {
-    expect(booking.userID).to.equal(9)
+    expect(booking.userID).to.equal(1)
   })
 
   it('should have a date', () => {
-    expect(booking.date).to.equal('2022/04/22')
+    expect(booking.date).to.equal('2022/12/22')
   })
 
   it('should have a room number', () => {
-    expect(booking.roomNumber).to.equal(15)
+    expect(booking.roomNumber).to.equal(5)
   })
 })
