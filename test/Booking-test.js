@@ -10,19 +10,19 @@ describe('booking', () => {
     booking = new Booking(testBookings[0])
   })
 
-  it.skip('should have an id', () => {
+  it('should have an id', () => {
     expect(booking.id).to.equal('5fwrgu4i7k55hl6sz')
   })
 
-  it.skip('should have a user id', () => {
-    expect(booking.userID).to.equal('9')
+  it('should have a user id', () => {
+    expect(booking.userID).to.equal(9)
   })
 
-  it.skip('should have a date', () => {
+  it('should have a date', () => {
     expect(booking.date).to.equal('2022/04/22')
   })
 
-  it.skip('should have a room number', () => {
-    expect(booking.roomNumber).to.equal('15')
+  it('should have a room number', () => {
+    expect(booking.roomNumber).to.equal(15)
   })
 })
