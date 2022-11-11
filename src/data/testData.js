@@ -121,15 +121,23 @@ let testRooms = [
     "bedSize": "twin",
     "numBeds": 1,
     "costPerNight": 497.64
+  },
+  {
+    "number": 11,
+    "roomType": "suite",
+    "bidet": false,
+    "bedSize": "twin",
+    "numBeds": 1,
+    "costPerNight": -400
   }
 ]
 
 let testBookings = [
   {
     "id": "5fwrgu4i7k55hl6sz",
-    "userID": 9,
-    "date": "2022/04/22",
-    "roomNumber": 15
+    "userID": 1,
+    "date": "2022/12/22",
+    "roomNumber": 5
   },
   {
     "id": "5fwrgu4i7k55hl6t5",
@@ -139,9 +147,9 @@ let testBookings = [
   },
   {
     "id": "5fwrgu4i7k55hl6t6",
-    "userID": 13,
+    "userID": 1,
     "date": "2022/01/10",
-    "roomNumber": 12
+    "roomNumber": 2
   },
   {
     "id": "5fwrgu4i7k55hl6t7",
@@ -153,7 +161,7 @@ let testBookings = [
     "id": "5fwrgu4i7k55hl6t8",
     "userID": 1,
     "date": "2022/02/05",
-    "roomNumber": 12
+    "roomNumber": 4
   },
   {
     "id": "5fwrgu4i7k55hl6t9",
@@ -175,20 +183,192 @@ let testBookings = [
   },
   {
     "id": "5fwrgu4i7k55hl6tc",
-    "userID": 22,
+    "userID": 1,
     "date": "2023/11/30",
-    "roomNumber": 13
+    "roomNumber": 7
   },
   {
     "id": "5fwrgu4i7k55hl6td",
     "userID": 27,
     "date": "2022/01/31",
     "roomNumber": 20
+  },
+  {
+    "id": "5fwrgu4i7k55hl8eg",
+    "userID": 1,
+    "date": "2023/06/28",
+    "roomNumber": 7
   }
 ]
+
+let customerBookings = [
+  {
+    "id": "5fwrgu4i7k55hl6sz",
+    "userID": 1,
+    "date": "2022/12/22",
+    "roomNumber": 5
+  },
+  {
+    "id": "5fwrgu4i7k55hl6tc",
+    "userID": 1,
+    "date": "2023/11/30",
+    "roomNumber": 7
+  }
+]
+
+let oldBookings = [
+  {
+    "id": "5fwrgu4i7k55hl6t8",
+    "userID": 1,
+    "date": "2022/02/05",
+    "roomNumber": 4
+  },
+  {
+    "id": "5fwrgu4i7k55hl6t6",
+    "userID": 1,
+    "date": "2022/01/10",
+    "roomNumber": 2
+  }
+]
+
+let noneAvailable = [
+  {
+    "id": "5fwrgu4i7k55hl6sz",
+    "userID": 10,
+    "date": "2022/12/22",
+    "roomNumber": 1
+  },
+  {
+    "id": "5fwrgu4i7k55hl6sz",
+    "userID": 17,
+    "date": "2022/12/22",
+    "roomNumber": 2
+  },
+  {
+    "id": "5fwrgu4i7k55hl6sz",
+    "userID": 13,
+    "date": "2022/12/22",
+    "roomNumber": 3
+  },
+  {
+    "id": "5fwrgu4i7k55hl6sz",
+    "userID": 12,
+    "date": "2022/12/22",
+    "roomNumber": 4
+  }
+]
+
+let filteredByDate = [
+  {
+    "number": 1,
+    "roomType": "residential suite",
+    "bidet": true,
+    "bedSize": "queen",
+    "numBeds": 1,
+    "costPerNight": 358.4
+  },
+  {
+    "number": 2,
+    "roomType": "suite",
+    "bidet": false,
+    "bedSize": "full",
+    "numBeds": 2,
+    "costPerNight": 477.38
+  },
+  {
+    "number": 3,
+    "roomType": "single room",
+    "bidet": false,
+    "bedSize": "king",
+    "numBeds": 1,
+    "costPerNight": 491.14
+  },
+  {
+    "number": 4,
+    "roomType": "single room",
+    "bidet": false,
+    "bedSize": "queen",
+    "numBeds": 1,
+    "costPerNight": 429.44
+  },
+  {
+    "number": 5,
+    "roomType": "single room",
+    "bidet": true,
+    "bedSize": "queen",
+    "numBeds": 2,
+    "costPerNight": 340.17
+  },
+  {
+    "number": 6,
+    "roomType": "junior suite",
+    "bidet": true,
+    "bedSize": "queen",
+    "numBeds": 1,
+    "costPerNight": 397.02
+  },
+  {
+    "number": 8,
+    "roomType": "junior suite",
+    "bidet": false,
+    "bedSize": "king",
+    "numBeds": 1,
+    "costPerNight": 261.26
+  },
+  {
+    "number": 9,
+    "roomType": "single room",
+    "bidet": true,
+    "bedSize": "queen",
+    "numBeds": 1,
+    "costPerNight": 200.39
+  },
+  {
+    "number": 10,
+    "roomType": "suite",
+    "bidet": false,
+    "bedSize": "twin",
+    "numBeds": 1,
+    "costPerNight": 497.64
+  },
+  {
+    "number": 11,
+    "roomType": "suite",
+    "bidet": false,
+    "bedSize": "twin",
+    "numBeds": 1,
+    "costPerNight": -400
+  }
+]
+
+let juniorSuites = [
+  {
+    "number": 6,
+    "roomType": "junior suite",
+    "bidet": true,
+    "bedSize": "queen",
+    "numBeds": 1,
+    "costPerNight": 397.02
+  },
+  {
+    "number": 8,
+    "roomType": "junior suite",
+    "bidet": false,
+    "bedSize": "king",
+    "numBeds": 1,
+    "costPerNight": 261.26
+  }
+]
+
+let noResult = 
 
 module.exports = {
   testCustomers,
   testRooms,
-  testBookings
+  testBookings,
+  customerBookings,
+  oldBookings,
+  noneAvailable,
+  filteredByDate,
+  juniorSuites
 }
