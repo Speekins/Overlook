@@ -55,9 +55,9 @@ describe('hotel', () => {
   })
 
   it.skip('should be able to make a new booking', () => {
-    let newBooking = hotel.makeBooking(1, 7, "2023/06/28", "5fwrgu4i7k55hl8ef")
-
-    expect(newBooking).to.eql(newTestBooking)
+    let newBooking = hotel.makeBooking(1, 7, "2023/06/28")
+    let post = { "userID": 1, "date": "2023/06/28", "roomNumber": 7 }
+    expect(newBooking).to.eql(post)
   })
 
   it.skip('should have a list of bookings for the current day', () => {
