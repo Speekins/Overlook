@@ -1,30 +1,36 @@
 import chai from 'chai'
+import Customer from '../src/classes/customer'
 import Hotel from '../src/classes/hotel'
-import Booking from '../src/classes/booking'
-import { testBookings, testCustomers, testRooms, noneAvailable,
-  newTestBooking, sortedBookings, filteredByDate, juniorSuites } from '../src/data/testData'
+import Room from '../src/classes/room'
+import {
+  testBookings, testRooms, noneAvailable,
+  newTestBooking, sortedBookings, filteredByDate, juniorSuites, testCustomerData, testRoomData, testBookingData
+} from '../src/data/testData'
 const expect = chai.expect
 
 describe('hotel', () => {
   let hotel
 
   beforeEach(() => {
-    hotel = new Hotel(testBookings, testCustomers)
+    hotel = new Hotel(testBookingData, testCustomerData, testRoomData)
   })
 
-  it.skip('should have a list of bookings', () => {
+  it('should have a list of rooms', () => {
+    expect(hotel.rooms).to.eql(testRoomData)
+  })
+
+  it('should have a list of bookings', () => {
     expect(hotel.bookings).to.eql(testBookings)
   })
 
-  it.skip('should have a list of customers', () => {
-    expect(hotel.customers).to.eql(testCustomers)
+  it('should have a list of customers', () => {
+    expect(hotel.customers.length).to.equal(10)
+    for (let i = 0; i < hotel.bookings.length; i++) {
+      expect(hotel.customers[i]).to.be.instanceOf(Customer)
+    }
   })
 
-  it.skip('should have a list of rooms', () => {
-    expect(hotel.rooms).to.eql(testRooms)
-  })
-
-  it.skip('should know the current date', () => {
+  it('should know the current date', () => {
     hotel.getCurrentDate()
     let today = new Date()
     let day = today.getDate()
@@ -32,18 +38,19 @@ describe('hotel', () => {
     let year = today.getFullYear()
     let date = `${year}/${month}/${day}`
 
-    expect(hotel.currentDate).to.equal(date)
+    expect(hotel.date).to.equal(date)
   })
 
-  it.skip('should know the current time', () => {
-    let time = hotel.getCurrentTime()
-
+  it('should know the current time', () => {
+    let date = new Date()
+    let time = date.getTime()
+    console.log(time)
     expect(hotel.time).to.equal(time)
   })
 
-  it.skip('should know the current date and time in milliseconds', () => {
-    let exactTime = hotel.exactTime
-
+  it('should know the current date and time in milliseconds', () => {
+    let exactTime = Date.now()
+    console.log(exactTime)
     expect(hotel.exactTime).to.equal(exactTime)
   })
 
@@ -95,7 +102,7 @@ describe('hotel', () => {
 
     expect(result).to.equal('Sorry, there are no rooms available for the selected date')
   })
-  
+
   it.skip('should be able to filter searched rooms by type', () => {
     let date = "2023/11/30"
     hotel.searchByDate(date)
@@ -119,8 +126,8 @@ describe('hotel', () => {
   //   let date = new Date(`${year}-${month}-${day}`)
   //   return date.getTime()
   // }
-  
+
   // let copy = bookings.slice(0);
-  
+
   // copy.sort((a, b) => convertToNum(a) - convertToNum(b))
 })

@@ -1,13 +1,13 @@
 import chai from 'chai';
 import Booking from '../src/classes/booking'
-import { testBookings, testRooms } from '../src/data/testData'
+import { testBookingData, testRoomData } from '../src/data/testData'
 const expect = chai.expect;
 
 describe('booking', () => {
   let booking
 
   beforeEach(() => {
-    booking = new Booking(testBookings[0], testRooms)
+    booking = new Booking(testBookingData[0], testRoomData)
   })
 
   it('should have an id', () => {
