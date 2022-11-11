@@ -61,7 +61,7 @@ describe('customer', () => {
   })
 
   it.skip('should be able to make new bookings', () => {
-    customer.bookNewDate(new Booking(testBookings[11]))
+    customer.bookNewDate(new Booking(testBookings[10]))
 
     expect(customer.bookings[customer.bookings.length - 1]).to.eql(testBookings[11])
   })
