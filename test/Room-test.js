@@ -1,39 +1,40 @@
 import chai from 'chai';
 import Room from '../src/classes/room'
+import { testRooms } from '../src/data/testData'
 const expect = chai.expect;
 
 describe('Room', function() {
   let room
   beforeEach(() => {
-    room = new Room()
+    room = new Room(testRooms[0])
   })
 
   it('should be an instance of room', function() {
     expect(room).to.be.instanceOf(Room);
   });
 
-  it.skip('should have a room number', () => {
-
+  it('should have a room number', () => {
+    expect(room.number).to.equal(1)
   })
 
-  it.skip('should have a room type', () => {
-
+  it('should have a room type', () => {
+    expect(room.type).to.equal('residential suite')
   })
 
-  it.skip('should confirm if it has a bidet', () => {
-
+  it('should confirm if it has a bidet', () => {
+    expect(room.hasBidet).to.equal(true)
   })
 
-  it.skip('should have a cost per night', () => {
-
+  it('should have a cost per night', () => {
+    expect(room.costPerNight).to.equal(358.40)
   })
 
-  it.skip('should have a bed type', () => {
-
+  it('should have a bed type', () => {
+    expect(room.bedSize).to.equal('queen')
   })
 
-  it.skip('should have a number of beds', () => {
-
+  it('should have a number of beds', () => {
+    expect(room.numBeds).to.equal(1)
   })
 
 });
