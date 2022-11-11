@@ -192,12 +192,6 @@ let testBookings = [
     "userID": 27,
     "date": "2022/01/31",
     "roomNumber": 20
-  },
-  {
-    "id": "5fwrgu4i7k55hl8eg",
-    "userID": 1,
-    "date": "2023/06/28",
-    "roomNumber": 7
   }
 ]
 
@@ -360,7 +354,73 @@ let juniorSuites = [
   }
 ]
 
-let noResult = 
+let newTestBooking = {
+  "id": "5fwrgu4i7k55hl8eg",
+  "userID": 1,
+  "date": "2023/06/28",
+  "roomNumber": 7
+}
+
+let sortedBookings = [{
+  date: "2022/01/10",
+  id: "5fwrgu4i7k55hl6t6",
+  roomNumber: 2,
+  userID: 1
+},
+{
+  date: "2022/01/11",
+  id: "5fwrgu4i7k55hl6ta",
+  roomNumber: 9,
+  userID: 25
+},
+{
+  date: "2022/01/24",
+  id: "5fwrgu4i7k55hl6t5",
+  roomNumber: 24,
+  userID: 43
+},
+{
+  date: "2022/01/31",
+  id: "5fwrgu4i7k55hl6td",
+  roomNumber: 20,
+  userID: 27
+},
+{
+  date: "2022/02/05",
+  id: "5fwrgu4i7k55hl6t8",
+  roomNumber: 4,
+  userID: 1
+},
+{
+  date: "2022/02/06",
+  id: "5fwrgu4i7k55hl6tb",
+  roomNumber: 5,
+  userID: 49
+},
+{
+  date: "2022/02/16",
+  id: "5fwrgu4i7k55hl6t7",
+  roomNumber: 7,
+  userID: 20
+},
+{
+  date: "2022/12/22",
+  id: "5fwrgu4i7k55hl6sz",
+  roomNumber: 5,
+  userID: 1
+},
+{
+  date: "2023/11/30",
+  id: "5fwrgu4i7k55hl6tc",
+  roomNumber: 7,
+  userID: 1
+},
+{
+  date: "2023/12/14",
+  id: "5fwrgu4i7k55hl6t9",
+  roomNumber: 14,
+  userID: 38
+}]
 
 module.exports = {
   testCustomers,
@@ -370,5 +430,7 @@ module.exports = {
   oldBookings,
   noneAvailable,
   filteredByDate,
-  juniorSuites
+  juniorSuites,
+  newTestBooking,
+  sortedBookings
 }
