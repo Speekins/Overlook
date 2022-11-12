@@ -62,6 +62,7 @@ class Hotel {
   }
 
   filterByType(type) {
+    type = type.toLowerCase()
     let filtered = this.searchResult.filter(room => room.roomType === type)
     if (!filtered.length) {
       return 'Sorry, there are no rooms available for the selected type'

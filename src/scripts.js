@@ -19,6 +19,14 @@ let searchSection = document.getElementById('search-content')
 let searchButton = document.getElementById('search-button')
 let selectDate = document.getElementById('select-date')
 let bookButtons
+let filterRoomType = document.getElementById('filter-room-type')
+
+document.addEventListener('keypress', event => {
+  if (event.key === "Enter") {
+    event.preventDefault()
+    event.target.click()
+  }
+})
 
 searchButton.addEventListener('click', () => {
   searchedDate = selectDate.value.replaceAll('-', '/')
@@ -36,6 +44,16 @@ searchSection.addEventListener('click', (e) => {
   let roomNum = Number(target.id)
   let dataToPost = hotel.makeBooking(currentCustomer.id, roomNum, searchedDate)
   postNewBooking(dataToPost)
+})
+
+filterRoomType.addEventListener('input', (e) => {
+  let roomType = e.target.value
+  if (roomType) {
+    let filteredResults = hotel.filterByType(roomType)
+    showSearchResult(filteredResults)
+  } else {
+    return
+  }
 })
 
 
