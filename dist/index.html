@@ -1,16 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Webpack Starter Kit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&display=swap"
+    rel="stylesheet">
+  <title>Overlook Hotel</title>
 </head>
+
 <body>
-  <img src="./images/turing-logo.png" alt="turing logo">
-  
-  <!-- Do not include the scripts.js or class files here - it is done by the webpack server -->
+  <header>
+    <div class="header-content">
+      <img src="./images/overlook2.png" id="logo" alt="overlook hotel logo">
+      <h1>Welcome!</h1>
+    </div>
+  </header>
+  <main>
+    <section class="my-bookings" id="my-bookings">
+      <header class="my-bookings-header">
+        <div class="div1">
+          <h2>My Bookings</h2>
+        </div>
+        <div class="div2">
+          <button class="history-button">Booking History</button>
+        </div>
+      </header>
+      <div class="bookings-section" id="bookings-section">
+
+      </div>
+    </section>
+    <section class="search-section" id="search-section">
+      <header class="search-section-header">
+        <h2>Search</h2>
+      </header>
+      <div class="search-content">
+        <label for="select-date">Select a date</label>
+        <input type="date" id="select-date" name="select-date" value="2022-11-12"
+          min="2022-11-12">
+        <input type="button" value="search" id="search-button">
+      </div>
+    </section>
+  </main>
+
   <script src="bundle.js"></script>
 
 </body>
+
 </html>
