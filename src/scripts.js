@@ -13,7 +13,6 @@ let allRooms
 let hotel
 let currentCustomer
 let searchedDate
-let dummyPost = { "userID": 1, "date": "2023/09/23", "roomNumber": 4 }
 
 let bookingSection = document.getElementById('bookings-section')
 let searchSection = document.getElementById('search-content')
@@ -54,16 +53,6 @@ addEventListener('load', () => {
     })
 })
 
-fetch('http://localhost:3001/api/v1/bookings', {
-  method: 'POST',
-  body: JSON.stringify(dummyPost),
-  headers: {
-    'Content-Type': 'application/json'
-  }
-})
-  .then(response => response.json())
-  .then(data => console.log(data))
-
 function postNewBooking(body) {
   fetch('http://localhost:3001/api/v1/bookings', {
     method: 'POST',
@@ -73,7 +62,18 @@ function postNewBooking(body) {
     }
   })
     .then(response => response.json())
-    .then(data => console.log(data.newBooking))
+    .then(() => fetchAll(allURL))
+    .then(data => {
+      console.log(data[1])
+      allBookings = data[1].bookings
+      allCustomers = data[0].customers
+    })
+    .then(() => {
+      console.log(allBookings)
+      resetDOM()
+      updateData()
+      showBookings()
+    })
 }
 
 function showBookings() {
@@ -90,6 +90,7 @@ function showBookings() {
 }
 
 function showSearchResult(result) {
+  searchSection.innerHTML = ''
   result.forEach(room => {
     searchSection.innerHTML += `<div id="${room.number}">
     <p>Type: ${room.roomType}</p>
@@ -105,4 +106,14 @@ function showSearchResult(result) {
 function assignCustomer() {
   let randomNum = Math.floor(Math.random() * hotel.customers.length)
   return hotel.customers[randomNum]
+}
+
+function updateData() {
+  hotel = new Hotel(allBookings, allCustomers, allRooms)
+  currentCustomer = hotel.customers.find(customer => customer.id === currentCustomer.id)
+}
+
+function resetDOM() {
+  searchSection.innerHTML = ''
+  bookingSection.innerHTML = ''
 }
