@@ -22,6 +22,7 @@ let month = today.getMonth() + 1
 let year = today.getFullYear()
 let time = `${today.getHours()}:${today.getMinutes()}:${today.getSeconds()}`
 let date = `${month}/${day}/${year}`
+let dummyPost = { "userID": 1, "date": "2023/09/23", "roomNumber": 4 }
 
 
 addEventListener('load', () => {
@@ -37,3 +38,13 @@ addEventListener('load', () => {
       console.log('ROOMS', allRooms)
     })
 })
+
+fetch('http://localhost:3001/api/v1/bookings', {
+  method: 'POST',
+  body: JSON.stringify(dummyPost),
+  headers: {
+    'Content-Type': 'application/json'
+  }
+})
+  .then(response => response.json())
+  .then(data => console.log(data))
