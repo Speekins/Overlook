@@ -12,17 +12,31 @@ let allBookings
 let allRooms
 let hotel
 let currentCustomer
+let searchedDate
 let dummyPost = { "userID": 1, "date": "2023/09/23", "roomNumber": 4 }
 
 let bookingSection = document.getElementById('bookings-section')
 let searchSection = document.getElementById('search-content')
 let searchButton = document.getElementById('search-button')
 let selectDate = document.getElementById('select-date')
+let bookButtons
 
 searchButton.addEventListener('click', () => {
-  let date = selectDate.value.replaceAll('-', '/')
-  let searchResult = hotel.searchByDate(date)
+  searchedDate = selectDate.value.replaceAll('-', '/')
+  let searchResult = hotel.searchByDate(searchedDate)
   showSearchResult(searchResult)
+  bookButtons = document.getElementsByClassName('book-it')
+})
+
+searchSection.addEventListener('click', (e) => {
+  let target = e.target
+  let array = Array.from(bookButtons)
+  if (!array.includes(target)) {
+    return
+  }
+  let roomNum = Number(target.id)
+  let dataToPost = hotel.makeBooking(currentCustomer.id, roomNum, searchedDate)
+  postNewBooking(dataToPost)
 })
 
 
@@ -50,6 +64,18 @@ fetch('http://localhost:3001/api/v1/bookings', {
   .then(response => response.json())
   .then(data => console.log(data))
 
+function postNewBooking(body) {
+  fetch('http://localhost:3001/api/v1/bookings', {
+    method: 'POST',
+    body: JSON.stringify(body),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+    .then(response => response.json())
+    .then(data => console.log(data.newBooking))
+}
+
 function showBookings() {
   currentCustomer.bookings.forEach(booking => {
     let room = allRooms.find(room => room.number === booking.roomNumber)
@@ -65,12 +91,13 @@ function showBookings() {
 
 function showSearchResult(result) {
   result.forEach(room => {
-    searchSection.innerHTML += `<div id=${room.number}>
+    searchSection.innerHTML += `<div id="${room.number}">
     <p>Type: ${room.roomType}</p>
     <p>Bidet? ${room.bidet}</p>
     <p>Per Night: $${room.costPerNight}</p>
     <p>Bed: ${room.bedSize}</p>
     <p># of Beds: ${room.numBeds}</p>
+    <button class="book-it" id="${room.number}">Book Room</button>
     </div>`
   })
 }
