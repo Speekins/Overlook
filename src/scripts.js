@@ -20,12 +20,18 @@ let searchButton = document.getElementById('search-button')
 let selectDate = document.getElementById('select-date')
 let bookButtons
 let filterRoomType = document.getElementById('filter-room-type')
+let historyButton = document.getElementById('history-button')
 
 document.addEventListener('keypress', event => {
   if (event.key === "Enter") {
     event.preventDefault()
     event.target.click()
   }
+})
+
+historyButton.addEventListener('click', () => {
+  console.log(currentCustomer.pastBookings)
+  showBookings(currentCustomer.pastBookings)
 })
 
 searchButton.addEventListener('click', () => {
@@ -67,7 +73,7 @@ addEventListener('load', () => {
     .then(() => {
       hotel = new Hotel(allBookings, allCustomers, allRooms)
       currentCustomer = assignCustomer()
-      showBookings()
+      showBookings(currentCustomer.bookings)
     })
 })
 
@@ -90,19 +96,21 @@ function postNewBooking(body) {
       console.log(allBookings)
       resetDOM()
       updateData()
-      showBookings()
+      showBookings(currentCustomer.bookings)
     })
 }
 
-function showBookings() {
-  currentCustomer.bookings.forEach(booking => {
+function showBookings(data) {
+  bookingSection.innerHTML = ''
+  data.forEach(booking => {
     let room = allRooms.find(room => room.number === booking.roomNumber)
     bookingSection.innerHTML += `<div>
-    <p>${booking.date}</p>
-    <p>${booking.roomNumber}</p>
-    <p>${booking.amount}</p>
-    <p>${room.bedSize}</p>
-    <p>${room.numBeds}</p>
+    <p>USER ID ${booking.userID}</p>
+    <p>DATE ${booking.date}</p>
+    <p>ROOM ${booking.roomNumber}</p>
+    <p>AMOUNT $${booking.amount}</p>
+    <p>BED ${room.bedSize}</p>
+    <p># OF BEDS ${room.numBeds}</p>
     </div>`
   })
 }
