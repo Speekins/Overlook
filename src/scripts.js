@@ -14,11 +14,15 @@ let hotel
 let currentCustomer
 let dummyPost = { "userID": 1, "date": "2023/09/23", "roomNumber": 4 }
 
-let bookings = document.getElementById('bookings-section')
+let bookingSection = document.getElementById('bookings-section')
+let searchSection = document.getElementById('search-content')
 let searchButton = document.getElementById('search-button')
+let selectDate = document.getElementById('select-date')
 
 searchButton.addEventListener('click', () => {
-  hotel.searchByButton
+  let date = selectDate.value.replaceAll('-', '/')
+  let searchResult = hotel.searchByDate(date)
+  showSearchResult(searchResult)
 })
 
 
@@ -49,12 +53,24 @@ fetch('http://localhost:3001/api/v1/bookings', {
 function showBookings() {
   currentCustomer.bookings.forEach(booking => {
     let room = allRooms.find(room => room.number === booking.roomNumber)
-    bookings.innerHTML += `<div>
+    bookingSection.innerHTML += `<div>
     <p>${booking.date}</p>
     <p>${booking.roomNumber}</p>
     <p>${booking.amount}</p>
     <p>${room.bedSize}</p>
     <p>${room.numBeds}</p>
+    </div>`
+  })
+}
+
+function showSearchResult(result) {
+  result.forEach(room => {
+    searchSection.innerHTML += `<div id=${room.number}>
+    <p>Type: ${room.roomType}</p>
+    <p>Bidet? ${room.bidet}</p>
+    <p>Per Night: $${room.costPerNight}</p>
+    <p>Bed: ${room.bedSize}</p>
+    <p># of Beds: ${room.numBeds}</p>
     </div>`
   })
 }
