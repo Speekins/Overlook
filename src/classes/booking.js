@@ -8,7 +8,8 @@ class Booking {
   }
 
   getCostOfRoom(data) {
-    return data.find(room => room.number === this.roomNumber).costPerNight
+    let room = data.find(room => room.number === this.roomNumber)
+    return room.costPerNight
   }
 }
 

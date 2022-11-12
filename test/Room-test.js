@@ -1,12 +1,12 @@
 import chai from 'chai';
 import Room from '../src/classes/room'
-import { testRooms } from '../src/data/testData'
+import { testRoomData } from '../src/data/testData'
 const expect = chai.expect;
 
 describe('Room', function() {
   let room
   beforeEach(() => {
-    room = new Room(testRooms[0])
+    room = new Room(testRoomData[0])
   })
 
   it('should be an instance of room', function() {
@@ -18,11 +18,11 @@ describe('Room', function() {
   })
 
   it('should have a room type', () => {
-    expect(room.type).to.equal('residential suite')
+    expect(room.roomType).to.equal('residential suite')
   })
 
   it('should confirm if it has a bidet', () => {
-    expect(room.hasBidet).to.equal(true)
+    expect(room.bidet).to.equal(true)
   })
 
   it('should have a cost per night', () => {

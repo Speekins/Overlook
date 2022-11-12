@@ -2,16 +2,16 @@ import chai from 'chai'
 import Customer from '../src/classes/customer'
 import Booking from '../src/classes/booking'
 import {
-  testCustomers, testBookings, customerBookings,
-  oldBookings, sortedBookings
+  testBookings, customerBookings,
+  oldBookings, sortedBookings, testCustomerData
 } from '../src/data/testData'
 const expect = chai.expect
 
 describe('customer', () => {
   let customer, customer2
   beforeEach(() => {
-    customer = new Customer(testCustomers[0], sortedBookings)
-    customer2 = new Customer(testCustomers[1], sortedBookings)
+    customer = new Customer(testCustomerData[0], sortedBookings)
+    customer2 = new Customer(testCustomerData[1], sortedBookings)
   })
 
   it('should be an instance of Customer', () => {
