@@ -1,28 +1,25 @@
-// This is the JavaScript entry file - your code begins here
-// Do not delete or rename this file ********
-
-// An example of how you tell webpack to use a CSS (SCSS) file
-import './css/styles.css'
 import { fetchData, fetchAll } from './apiCalls'
-
-
-// An example of how you tell webpack to use an image (also need to link to it in the index.html)
+import Hotel from './classes/hotel'
+import './css/reset.css'
+import './css/styles.css'
 import './images/turing-logo.png'
+import './images/overlook2.png'
+import './images/king.jpg'
 
 let allURL = ['http://localhost:3001/api/v1/customers', 'http://localhost:3001/api/v1/bookings', 'http://localhost:3001/api/v1/rooms']
-let allCustomersURL = 'http://localhost:3001/api/v1/customers'
 let allCustomers
-let allBookingsURL = 'http://localhost:3001/api/v1/bookings'
 let allBookings
-let allRoomsURL = 'http://localhost:3001/api/v1/rooms'
 let allRooms
-let today = new Date()
-let day = today.getDate()
-let month = today.getMonth() + 1
-let year = today.getFullYear()
-let time = `${today.getHours()}:${today.getMinutes()}:${today.getSeconds()}`
-let date = `${month}/${day}/${year}`
+let hotel
+let currentCustomer
 let dummyPost = { "userID": 1, "date": "2023/09/23", "roomNumber": 4 }
+
+let bookings = document.getElementById('bookings-section')
+let searchButton = document.getElementById('search-button')
+
+searchButton.addEventListener('click', () => {
+  hotel.searchByButton
+})
 
 
 addEventListener('load', () => {
@@ -33,9 +30,9 @@ addEventListener('load', () => {
       allRooms = data[2].rooms
     })
     .then(() => {
-      console.log('CUSTOMERS', allCustomers)
-      console.log('BOOKINGS', allBookings)
-      console.log('ROOMS', allRooms)
+      hotel = new Hotel(allBookings, allCustomers, allRooms)
+      currentCustomer = assignCustomer()
+      showBookings()
     })
 })
 
@@ -48,3 +45,21 @@ fetch('http://localhost:3001/api/v1/bookings', {
 })
   .then(response => response.json())
   .then(data => console.log(data))
+
+function showBookings() {
+  currentCustomer.bookings.forEach(booking => {
+    let room = allRooms.find(room => room.number === booking.roomNumber)
+    bookings.innerHTML += `<div>
+    <p>${booking.date}</p>
+    <p>${booking.roomNumber}</p>
+    <p>${booking.amount}</p>
+    <p>${room.bedSize}</p>
+    <p>${room.numBeds}</p>
+    </div>`
+  })
+}
+
+function assignCustomer() {
+  let randomNum = Math.floor(Math.random() * hotel.customers.length)
+  return hotel.customers[randomNum]
+}
