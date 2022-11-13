@@ -140,14 +140,14 @@ function showSearchResult(result) {
   result.forEach(room => {
     searchSection.innerHTML += 
     `<div id="${room.number}" class="room-tile">
-      <div id="room-info">
-        <p>Type: ${room.roomType}</p>
-        <p>Bidet? ${room.bidet}</p>
-        <p>Per Night: $${room.costPerNight}</p>
-        <p>Bed: ${room.bedSize}</p>
-        <p># of Beds: ${room.numBeds}</p>
-        <button class="book-it" id="${room.number}">Book Room</button>
+      <div class="room-info">
+        <p>TYPE: <span class="booking-detail">${room.roomType}</span></p>
+        <p>BIDET? <span class="booking-detail">${room.bidet}</span></p>
+        <p>PER NIGHT: <span class="booking-detail">$${room.costPerNight}</span></p>
+        <p>BED SIZE: <span class="booking-detail">${room.bedSize}</span></p>
+        <p>BED COUNT: <span class="booking-detail">${room.numBeds}</span></p>
       </div>
+      <button class="book-it" id="${room.number}">Book Room</button>
       <img class="room-image" src=${room.image} alt="${room.roomType}">
     </div>`
   })

@@ -103,7 +103,8 @@ main {
 
 .booking-detail {
   font-weight: 300;
-  color: rgb(237, 201, 119)
+  color: rgb(237, 201, 119);
+  margin-left: 10px;
 }
 
 .room-image {
@@ -161,7 +162,6 @@ main {
 
 .room-info {
   display: flex;
-  flex-wrap: wrap;
   flex-direction: column;
   justify-content: center;
   font-weight: 400;
