@@ -227,3 +227,8 @@ main {
 .hidden {
   display: none;
 }
+
+.disabled {
+  opacity: 65%;
+  pointer-events: none;
+}

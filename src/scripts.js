@@ -30,6 +30,7 @@ let historyButton = document.getElementById('history-button')
 let username = document.getElementById('username')
 let totalAmount = document.getElementById('total-amount')
 let backToBookingsButton = document.getElementById('back-to-bookings')
+let clearFilterButton = document.getElementById('clear-filter')
 
 document.addEventListener('keypress', event => {
   if (event.key === "Enter") {
@@ -52,7 +53,6 @@ backToBookingsButton.addEventListener('click', () => {
 
 searchButton.addEventListener('click', () => {
   searchedDate = selectDate.value.replaceAll('-', '/')
-  console.log(searchedDate)
   let searchResult = hotel.searchByDate(searchedDate)
   showSearchResult(searchResult)
   bookButtons = document.getElementsByClassName('book-it')
@@ -65,12 +65,17 @@ searchSection.addEventListener('click', (e) => {
     return
   }
   let roomNum = Number(target.id)
+  clearFilterButton.classList.add('disabled')
+  clearFilterButton.disabled = true
   let dataToPost = hotel.makeBooking(currentCustomer.id, roomNum, searchedDate)
-  console.log(dataToPost)
   postNewBooking(dataToPost)
 })
 
 filterRoomType.addEventListener('input', (e) => {
+  if (filterRoomType.value !== 'Filter Rooms') {
+    clearFilterButton.classList.remove('disabled')
+    clearFilterButton.disabled = false
+  }
   let roomType = e.target.value
   if (roomType) {
     let filteredResults = hotel.filterByType(roomType)
@@ -78,6 +83,13 @@ filterRoomType.addEventListener('input', (e) => {
   } else {
     return
   }
+})
+
+clearFilterButton.addEventListener('click', () => {
+  filterRoomType.value = 'Filter Rooms'
+  searchedDate = selectDate.value.replaceAll('-', '/')
+  let searchResult = hotel.searchByDate(searchedDate)
+  showSearchResult(searchResult)
 })
 
 
@@ -137,8 +149,8 @@ function showBookings(data) {
   bookingSection.innerHTML = ''
   data.forEach(booking => {
     let room = hotel.rooms.find(room => room.number === booking.roomNumber)
-    bookingSection.innerHTML += 
-    `<div class="booking-tile">
+    bookingSection.innerHTML +=
+      `<div class="booking-tile">
       <div class="booking-info">
         <p>DATE: <span class="booking-detail">${booking.date}</span></p>
         <p>ROOM: <span class="booking-detail">${booking.roomNumber}</span></p>
@@ -158,8 +170,8 @@ function showSearchResult(result) {
     return
   }
   result.forEach(room => {
-    searchSection.innerHTML += 
-    `<div id="${room.number}" class="room-tile">
+    searchSection.innerHTML +=
+      `<div id="${room.number}" class="room-tile">
       <div class="room-info">
         <p>TYPE: <span class="booking-detail">${room.roomType}</span></p>
         <p>BIDET? <span class="booking-detail">${room.bidet}</span></p>
