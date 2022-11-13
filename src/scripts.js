@@ -2,9 +2,11 @@ import { fetchData, fetchAll } from './apiCalls'
 import Hotel from './classes/hotel'
 import './css/reset.css'
 import './css/styles.css'
-import './images/turing-logo.png'
-import './images/overlook2.png'
 import './images/king.jpg'
+import './images/overlook2.png'
+import './images/overlook_black.png'
+import './images/overlook_white.png'
+import './images/overlook-banner4.jpg'
 
 let allURL = ['http://localhost:3001/api/v1/customers', 'http://localhost:3001/api/v1/bookings', 'http://localhost:3001/api/v1/rooms']
 let allCustomers
