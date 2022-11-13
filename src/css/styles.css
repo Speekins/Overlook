@@ -79,6 +79,7 @@ main {
   overflow-y: auto;
   width: 100%;
   min-height: 400px;
+  max-height: 700px;
 }
 
 .booking-tile {
@@ -144,9 +145,35 @@ main {
 
 .search-section-header {
   display: flex;
-  height: 50px;
+  width: 100%;
+  flex-direction: column;
+  height: 100px;
   justify-content: center;
   align-items: center;
+}
+
+.search-inputs {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+}
+
+.search-inputs div {
+  display: flex;
+  width: 50%;
+  justify-content: center;
+}
+
+.search-inputs div button,
+.search-inputs div input {
+  margin-left: 10px;
+  border: 1px solid transparent;
+}
+
+.search-inputs div button:hover,
+.search-inputs div input:hover {
+  margin-left: 10px;
+  border:rgb(237, 201, 119) 1px solid;
 }
 
 .room-tile {
@@ -169,6 +196,6 @@ main {
   margin: 10px;
 }
 
-.hide {
+.hidden {
   display: none;
 }

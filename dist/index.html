@@ -30,6 +30,8 @@
         <div class="div2">
           <button class="history-button" id="history-button">Booking
             History</button>
+          <button class="back-to-bookings hidden" id="back-to-bookings">Go
+            Back</button>
         </div>
       </header>
       <div class="bookings-section" id="bookings-section">
@@ -43,21 +45,26 @@
     <section class="search-section" id="search-section">
       <header class="search-section-header">
         <h2>Search</h2>
-        <label for="select-date"></label>
-        <input type="date" id="select-date" name="select-date" value="" min="">
-        <input type="button" value="search" id="search-button">
-        <label for="filter-room-type"></label>
-        <select name="filter" class="filter-room-type" id="filter-room-type">
-          <option value="">Filter Rooms</option>
-          <option value="Single Room">Single Room</option>
-          <option value="Suite">Suite</option>
-          <option value="Junior Suite">Junior Suite</option>
-          <option value="Residential Suite">Residential Suite</option>
-        </select>
-        <button class="clear-filter">Clear Filter</button>
+        <div class="search-inputs">
+          <div class="date-select">
+            <input type="date" id="select-date" aria-label="select date" name="select-date" value=""
+              min="">
+            <input type="button" for="select-date" aria-label="search date" value="search" id="search-button">
+          </div>
+          <div class="room-filter">
+            <select name="filter" class="filter-room-type"
+              id="filter-room-type" aria-label="filter room by type">
+              <option value="">Filter Rooms</option>
+              <option value="Single Room">Single Room</option>
+              <option value="Suite">Suite</option>
+              <option value="Junior Suite">Junior Suite</option>
+              <option value="Residential Suite">Residential Suite</option>
+            </select>
+            <button class="clear-filter">Clear Filter</button>
+          </div>
+        </div>
       </header>
       <div class="search-content" id="search-content">
-
       </div>
     </section>
   </main>

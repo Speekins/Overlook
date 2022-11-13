@@ -29,6 +29,7 @@ let filterRoomType = document.getElementById('filter-room-type')
 let historyButton = document.getElementById('history-button')
 let username = document.getElementById('username')
 let totalAmount = document.getElementById('total-amount')
+let backToBookingsButton = document.getElementById('back-to-bookings')
 
 document.addEventListener('keypress', event => {
   if (event.key === "Enter") {
@@ -39,10 +40,19 @@ document.addEventListener('keypress', event => {
 
 historyButton.addEventListener('click', () => {
   showBookings(currentCustomer.pastBookings)
+  hide(historyButton)
+  show(backToBookingsButton)
+})
+
+backToBookingsButton.addEventListener('click', () => {
+  showBookings(currentCustomer.bookings)
+  hide(backToBookingsButton)
+  show(historyButton)
 })
 
 searchButton.addEventListener('click', () => {
   searchedDate = selectDate.value.replaceAll('-', '/')
+  console.log(searchedDate)
   let searchResult = hotel.searchByDate(searchedDate)
   showSearchResult(searchResult)
   bookButtons = document.getElementsByClassName('book-it')
@@ -56,6 +66,7 @@ searchSection.addEventListener('click', (e) => {
   }
   let roomNum = Number(target.id)
   let dataToPost = hotel.makeBooking(currentCustomer.id, roomNum, searchedDate)
+  console.log(dataToPost)
   postNewBooking(dataToPost)
 })
 
@@ -84,6 +95,7 @@ addEventListener('load', () => {
       totalAmount.innerText = `$${currentCustomer.amountSpent}`
       selectDate.value = formatTodaysDate()
       selectDate.min = formatTodaysDate()
+      console.log(Date.now())
       showBookings(currentCustomer.bookings)
     })
 })
@@ -110,14 +122,18 @@ function postNewBooking(body) {
 }
 
 function hide(element) {
-  element.classList.add('hide')
+  element.classList.add('hidden')
 }
 
 function show(element) {
-  element.classList.remove('hide')
+  element.classList.remove('hidden')
 }
 
 function showBookings(data) {
+  if (data.length === 0) {
+    warning(bookingSection, 'You have no past bookings to show')
+    return
+  }
   bookingSection.innerHTML = ''
   data.forEach(booking => {
     let room = hotel.rooms.find(room => room.number === booking.roomNumber)
@@ -137,6 +153,10 @@ function showBookings(data) {
 
 function showSearchResult(result) {
   searchSection.innerHTML = ''
+  if (typeof result === 'string') {
+    warning(searchSection, result)
+    return
+  }
   result.forEach(room => {
     searchSection.innerHTML += 
     `<div id="${room.number}" class="room-tile">
@@ -151,6 +171,10 @@ function showSearchResult(result) {
       <img class="room-image" src=${room.image} alt="${room.roomType}">
     </div>`
   })
+}
+
+function warning(section, string) {
+  section.innerHTML = `<p class="warning">${string}</p>`
 }
 
 // function bookedUp() {
