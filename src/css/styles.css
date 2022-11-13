@@ -1,29 +1,34 @@
 * {
-  font-family: 'Noto Serif', serif;
-  background-color: black;
-  color: white;
+  font-family: 'Lato', sans-serif;
 }
 
 body {
   display: flex;
   flex-direction: column;
+  background-color: black;
+  color: white;
+  font-weight: 300;
 }
 
-header {
+.main-header {
   display: flex;
-  height: 10%;
-  border-bottom: 1px solid #F5CB5C;
+  height: 200px;
+  border-bottom: 1px solid rgb(237, 201, 119);
+  background-image: url('/src/images/overlook-banner4.jpg');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 .header-content {
   display: flex;
   width: 50%;
   justify-content: space-around;
-  align-items: center;
+  background-color: none;
 }
 
 #logo {
-  height: 150px;
+  height: 200px;
   margin: 0;
   padding: 0
 }
@@ -38,7 +43,7 @@ main {
   align-items: center;
   width: 50%;
   min-height: 100vh;
-  border-right: 1px solid #F5CB5C;
+  border-right: 1px solid rgb(237, 201, 119);
   padding: 0
 }
 
@@ -74,27 +79,57 @@ main {
   overflow-y: auto;
   width: 100%;
   min-height: 400px;
+  max-height: 700px;
 }
 
-.bookings-section div {
-  height: 200px;
-  width: 100%;
+.booking-tile {
+  display: flex;
+  height: 150px;
+  width: 80%;
+  margin: 10px 20px;
+  border:rgb(237, 201, 119) 1px solid;
+  border-radius: 15px;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.history-button {
+.booking-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-weight: 400;
+  padding: 10px;
+  margin: 10px;
+}
+
+.booking-detail {
+  font-weight: 300;
+  color: rgb(237, 201, 119);
+  margin-left: 10px;
+}
+
+.room-image {
+  height: 95%;
+  margin-right: 20px;
+}
+
+.my-bookings-header button {
   height: 50%;
-  width: 50%;
+  width: 40%;
   margin-right: 10px;
   font-size: 14px;
-  border: 1px solid white;
-  border-radius: 5px;
-  transition-duration: 400ms;
+  color: white;
+  background-color: black;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  transition-duration: 300ms;
 }
 
-.history-button:hover {
+.my-bookings-header button:hover {
   cursor: pointer;
   transform: scale(1.05);
-  border: 1px solid #F5CB5C;
+  color:rgb(237, 201, 119);
+  border: 1px solid rgb(237, 201, 119);
 }
 
 .amount-spent-section {
@@ -104,21 +139,96 @@ main {
 }
 
 .tell-amount {
-  
   margin-right: 20px
 }
 
 #total-amount {
-  color: green;
+  color: rgb(237, 201, 119);
 }
 
 .search-section-header {
   display: flex;
-  height: 50px;
+  width: 100%;
+  flex-direction: column;
+  height: 100px;
   justify-content: center;
   align-items: center;
 }
 
-.hide {
+.search-inputs {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+}
+
+.search-inputs div {
+  display: flex;
+  width: 50%;
+  justify-content: center;
+}
+
+.search-inputs div button {
+  height: 100%;
+  width: 30%;
+  margin-left: 10px;
+  font-size: 14px;
+  color: white;
+  background-color: black;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  transition-duration: 300ms;
+}
+
+.search-inputs div button:hover {
+  cursor: pointer;
+  transform: scale(1.05);
+  color:rgb(237, 201, 119);
+  border: 1px solid rgb(237, 201, 119);
+}
+
+.room-tile {
+  display: flex;
+  height: 150px;
+  width: 80%;
+  margin: 10px 20px;
+  border:rgb(237, 201, 119) 1px solid;
+  border-radius: 15px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.room-tile button {
+  height: 20%;
+  width: 15%;
+  font-size: 14px;
+  color: white;
+  background-color: black;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  transition-duration: 300ms;
+}
+
+.room-tile button:hover {
+  cursor: pointer;
+  transform: scale(1.05);
+  color:rgb(237, 201, 119);
+  border: 1px solid rgb(237, 201, 119);
+}
+
+.room-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-weight: 400;
+  padding: 10px;
+  margin: 10px;
+}
+
+.hidden {
   display: none;
+}
+
+.disabled {
+  opacity: 65%;
+  pointer-events: none;
 }

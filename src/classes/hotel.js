@@ -14,7 +14,23 @@ class Hotel {
   }
 
   instantiateRooms(rooms) {
-    return rooms.map(room => new Room(room))
+    let allRooms = rooms.map(room => new Room(room))
+    allRooms.forEach(room => {
+      room.image = './images/single.jpg'
+      switch (room['roomType']) {
+        case 'single room': room.image = './images/single.jpg'
+          break
+        case 'suite': room.image = './images/suite.jpg'
+          break
+        case 'junior suite': room.image = './images/junior-suite.jpg'
+          break
+        case 'residential suite': room.image = './images/queen.jpg'
+          break
+        default:
+          room['image'] = './images/king.jpg'
+      }
+    })
+    return allRooms
   }
 
   instantiateBookings(bookings) {

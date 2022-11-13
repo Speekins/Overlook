@@ -8,15 +8,16 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700&display=swap"
     rel="stylesheet">
   <title>Overlook Hotel</title>
 </head>
 
 <body>
-  <header>
+  <header class="main-header">
     <div class="header-content">
-      <img src="./images/overlook2.png" id="logo" alt="overlook hotel logo">
+      <img src="./images/overlook_white.png" id="logo"
+        alt="overlook hotel logo">
       <h1>Welcome, <span id="username"></span>!</h1>
     </div>
   </header>
@@ -27,35 +28,43 @@
           <h2>My Bookings</h2>
         </div>
         <div class="div2">
-          <button class="history-button" id="history-button">Booking History</button>
+          <button class="history-button" id="history-button">Booking
+            History</button>
+          <button class="back-to-bookings hidden" id="back-to-bookings">Go
+            Back</button>
         </div>
       </header>
       <div class="bookings-section" id="bookings-section">
 
       </div>
       <footer class="amount-spent-section">
-        <span class="show-amount">Total Spent: <span id="total-amount"></span></span>
+        <span class="show-amount">Total Spent: <span
+            id="total-amount"></span></span>
       </footer>
     </section>
     <section class="search-section" id="search-section">
       <header class="search-section-header">
         <h2>Search</h2>
-        <label for="select-date"></label>
-        <input type="date" id="select-date" name="select-date"
-          value="" min="">
-        <input type="button" value="search" id="search-button">
-        <label for="filter-room-type"></label>
-        <select name="filter" class="filter-room-type" id="filter-room-type">
-          <option value="">Filter Rooms</option>
-          <option value="Single Room">Single Room</option>
-          <option value="Suite">Suite</option>
-          <option value="Junior Suite">Junior Suite</option>
-          <option value="Residential Suite">Residential Suite</option>
-        </select>
-        <button class="clear-filter">Clear Filter</button>
+        <div class="search-inputs">
+          <div class="date-select">
+            <input type="date" id="select-date" aria-label="select date" name="select-date" value=""
+              min="">
+            <button for="select-date" aria-label="search date" id="search-button">Search</button>
+          </div>
+          <div class="room-filter">
+            <select name="filter" class="filter-room-type"
+              id="filter-room-type" aria-label="filter room by type">
+              <option value="Filter Rooms">Filter Rooms</option>
+              <option value="Single Room">Single Room</option>
+              <option value="Suite">Suite</option>
+              <option value="Junior Suite">Junior Suite</option>
+              <option value="Residential Suite">Residential Suite</option>
+            </select>
+            <button class="clear-filter disabled" id="clear-filter" disabled>Clear Filter</button>
+          </div>
+        </div>
       </header>
       <div class="search-content" id="search-content">
-
       </div>
     </section>
   </main>
