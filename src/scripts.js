@@ -3,6 +3,10 @@ import Hotel from './classes/hotel'
 import './css/reset.css'
 import './css/styles.css'
 import './images/king.jpg'
+import './images/junior-suite.jpg'
+import './images/suite.jpg'
+import './images/single.jpg'
+import './images/queen.jpg'
 import './images/overlook2.png'
 import './images/overlook_black.png'
 import './images/overlook_white.png'
@@ -34,7 +38,6 @@ document.addEventListener('keypress', event => {
 })
 
 historyButton.addEventListener('click', () => {
-  console.log(currentCustomer.pastBookings)
   showBookings(currentCustomer.pastBookings)
 })
 
@@ -96,29 +99,38 @@ function postNewBooking(body) {
     .then(response => response.json())
     .then(() => fetchAll(allURL))
     .then(data => {
-      console.log(data[1])
       allBookings = data[1].bookings
       allCustomers = data[0].customers
     })
     .then(() => {
-      console.log(allBookings)
       resetDOM()
       updateData()
       showBookings(currentCustomer.bookings)
     })
 }
 
+function hide(element) {
+  element.classList.add('hide')
+}
+
+function show(element) {
+  element.classList.remove('hide')
+}
+
 function showBookings(data) {
   bookingSection.innerHTML = ''
   data.forEach(booking => {
-    let room = allRooms.find(room => room.number === booking.roomNumber)
-    bookingSection.innerHTML += `<div>
-    <p>USER ID ${booking.userID}</p>
-    <p>DATE ${booking.date}</p>
-    <p>ROOM ${booking.roomNumber}</p>
-    <p>AMOUNT $${booking.amount}</p>
-    <p>BED ${room.bedSize}</p>
-    <p># OF BEDS ${room.numBeds}</p>
+    let room = hotel.rooms.find(room => room.number === booking.roomNumber)
+    bookingSection.innerHTML += 
+    `<div class="booking-tile">
+      <div class="booking-info">
+        <p>DATE: <span class="booking-detail">${booking.date}</span></p>
+        <p>ROOM: <span class="booking-detail">${booking.roomNumber}</span></p>
+        <p>AMOUNT: <span class="booking-detail">$${booking.amount}</span></p>
+        <p>BED: <span class="booking-detail">${room.bedSize}</span></p>
+        <p># OF BEDS: <span class="booking-detail">${room.numBeds}</span></p>
+      </div>
+      <img class="room-image" src=${room.image} alt="${room.roomType} image">
     </div>`
   })
 }
@@ -126,16 +138,29 @@ function showBookings(data) {
 function showSearchResult(result) {
   searchSection.innerHTML = ''
   result.forEach(room => {
-    searchSection.innerHTML += `<div id="${room.number}">
-    <p>Type: ${room.roomType}</p>
-    <p>Bidet? ${room.bidet}</p>
-    <p>Per Night: $${room.costPerNight}</p>
-    <p>Bed: ${room.bedSize}</p>
-    <p># of Beds: ${room.numBeds}</p>
-    <button class="book-it" id="${room.number}">Book Room</button>
+    searchSection.innerHTML += 
+    `<div id="${room.number}" class="room-tile">
+      <div id="room-info">
+        <p>Type: ${room.roomType}</p>
+        <p>Bidet? ${room.bidet}</p>
+        <p>Per Night: $${room.costPerNight}</p>
+        <p>Bed: ${room.bedSize}</p>
+        <p># of Beds: ${room.numBeds}</p>
+        <button class="book-it" id="${room.number}">Book Room</button>
+      </div>
+      <img class="room-image" src=${room.image} alt="${room.roomType}">
     </div>`
   })
 }
+
+// function bookedUp() {
+//   let sorted = hotel.bookings.reduce((acc, booking) => {
+//     acc[booking.date] ? acc[booking.date] += 1 : acc[booking.date] = 1
+//     return acc
+//   }, {})
+//   let index = Object.values(sorted).indexOf(25);
+//   console.log(Object.keys(sorted)[index])
+// }
 
 function assignCustomer() {
   let randomNum = Math.floor(Math.random() * hotel.customers.length)

@@ -81,9 +81,34 @@ main {
   min-height: 400px;
 }
 
-.bookings-section div {
-  height: 200px;
-  width: 100%;
+.booking-tile {
+  display: flex;
+  height: 150px;
+  width: 80%;
+  margin: 10px 20px;
+  border:rgb(237, 201, 119) 1px solid;
+  border-radius: 15px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.booking-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-weight: 400;
+  padding: 10px;
+  margin: 10px;
+}
+
+.booking-detail {
+  font-weight: 300;
+  color: rgb(237, 201, 119)
+}
+
+.room-image {
+  height: 95%;
+  margin-right: 20px;
 }
 
 .history-button {
@@ -113,7 +138,7 @@ main {
 }
 
 #total-amount {
-  color: green;
+  color: rgb(237, 201, 119);
 }
 
 .search-section-header {
@@ -121,6 +146,27 @@ main {
   height: 50px;
   justify-content: center;
   align-items: center;
+}
+
+.room-tile {
+  display: flex;
+  height: 150px;
+  width: 80%;
+  margin: 10px 20px;
+  border:rgb(237, 201, 119) 1px solid;
+  border-radius: 15px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.room-info {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: center;
+  font-weight: 400;
+  padding: 10px;
+  margin: 10px;
 }
 
 .hide {
