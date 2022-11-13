@@ -21,6 +21,8 @@ let selectDate = document.getElementById('select-date')
 let bookButtons
 let filterRoomType = document.getElementById('filter-room-type')
 let historyButton = document.getElementById('history-button')
+let username = document.getElementById('username')
+let totalAmount = document.getElementById('total-amount')
 
 document.addEventListener('keypress', event => {
   if (event.key === "Enter") {
@@ -73,6 +75,10 @@ addEventListener('load', () => {
     .then(() => {
       hotel = new Hotel(allBookings, allCustomers, allRooms)
       currentCustomer = assignCustomer()
+      username.innerText = currentCustomer.name.split(' ')[0]
+      totalAmount.innerText = `$${currentCustomer.amountSpent}`
+      selectDate.value = formatTodaysDate()
+      selectDate.min = formatTodaysDate()
       showBookings(currentCustomer.bookings)
     })
 })
@@ -142,4 +148,9 @@ function updateData() {
 function resetDOM() {
   searchSection.innerHTML = ''
   bookingSection.innerHTML = ''
+}
+
+function formatTodaysDate() {
+  let formatedDate = hotel.date.replaceAll('/', '-')
+  return formatedDate
 }
