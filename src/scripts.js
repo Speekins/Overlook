@@ -48,6 +48,7 @@ let customerSearchButton = document.getElementById('customer-search')
 let searchInputs = document.getElementById('search-inputs')
 let backToSearchButton = document.getElementById('back-to-search')
 let bookButtons
+let deleteButtons
 let viewCustomerBooking
 let managerBook
 
@@ -107,12 +108,16 @@ searchSection.addEventListener('click', (e) => {
     showCustomerBookings(searchedCustomer.bookings)
     hide(customerSearchSection)
     show(backToSearchButton)
+    deleteButtons = document.getElementsByClassName('delete')
     return
   } else if (target.classList.contains('manager-book')) {
     searchedCustomer = findCustomer(target.id)
     searchSection.innerHTML = ''
     show(searchInputs)
     return
+  } else if (target.classList.contains('delete')) {
+    let bookingID = target.id
+    deleteBooking(bookingID)
   } else if (!currentCustomer) {
     let roomNum = Number(target.id)
     clearFilterButton.classList.add('disabled')
@@ -132,7 +137,8 @@ searchSection.addEventListener('click', (e) => {
 
 function successfulPost(date) {
   if (!!searchedCustomer) {
-    searchSection.innerHTML = `<h1>Customer room successfully booked for ${date}!</h1>`
+    searchSection.innerHTML = `<h1>Room successfully booked for
+     ${searchedCustomer.name} on ${date}!</h1>`
     setTimeout(() => {
       loadManagerDashboard()
     }, 3000)
@@ -213,8 +219,27 @@ function postNewBooking(body) {
     })
 }
 
-function deleteBooking() {
-  
+function deleteBooking(id) {
+  fetch(`http://localhost:3001/api/v1/bookings/${id}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-type': 'application/json'
+    }
+  })
+    .then(() => fetchAll(allURL))
+    .then(data => {
+      allBookings = data[1].bookings
+      allCustomers = data[0].customers
+    })
+    .then(() => {
+      hotel = new Hotel(allBookings, allCustomers, allRooms)
+      searchSection.innerHTML = `<h1>Booking successfully deleted for ${searchedCustomer.name}!</h1>`
+      setTimeout(() => {
+        showCustomer(searchByName(customerSearch.value))
+        hide(backToSearchButton)
+        show(customerSearchSection)
+      }, 3000)
+    })
 }
 
 function hide(element) {
@@ -341,6 +366,9 @@ function searchByName(string) {
 }
 
 function showCustomer(customers) {
+  if (!customers.length) {
+    customers = hotel.customers
+  }
   searchSection.innerHTML = ''
   customers.forEach(customer => {
     searchSection.innerHTML +=
@@ -357,7 +385,7 @@ function showCustomer(customers) {
 
 function showCustomerBookings(data) {
   if (data.length === 0) {
-    warning(bookingSection, 'There\'s nothing to see here!')
+    warning(searchSection, 'There\'s nothing to see here!')
     return
   }
   searchSection.innerHTML = ''
@@ -372,7 +400,7 @@ function showCustomerBookings(data) {
         <p>BED: <span class="booking-detail">${room.bedSize}</span></p>
         <p># OF BEDS: <span class="booking-detail">${room.numBeds}</span></p>
       </div>
-      <button id="delete" class="delete">Delete this booking</button>
+      <button id="${booking.id}" class="delete">Delete this booking</button>
     </div>`
   })
 }
