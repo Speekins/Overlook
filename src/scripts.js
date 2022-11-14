@@ -103,25 +103,48 @@ searchButton.addEventListener('click', () => {
 searchSection.addEventListener('click', (e) => {
   let target = e.target
   if (target.classList.contains('show-customer-bookings')) {
-    searchedCustomer = findCustomer(Number(target.id))
+    searchedCustomer = findCustomer(target.id)
     showCustomerBookings(searchedCustomer.bookings)
     hide(customerSearchSection)
     show(backToSearchButton)
     return
   } else if (target.classList.contains('manager-book')) {
-    console.log('Im Da Manager!!!')
+    searchedCustomer = findCustomer(target.id)
+    searchSection.innerHTML = ''
+    show(searchInputs)
     return
-  } else {
-    let array = Array.from(bookButtons)
-    if (array.includes(target)) {
-      let roomNum = Number(target.id)
-      clearFilterButton.classList.add('disabled')
-      clearFilterButton.disabled = true
-      let dataToPost = hotel.makeBooking(currentCustomer.id, roomNum, searchedDate)
-      postNewBooking(dataToPost)
-    }
+  } else if (!currentCustomer) {
+    let roomNum = Number(target.id)
+    clearFilterButton.classList.add('disabled')
+    clearFilterButton.disabled = true
+    hide(searchInputs)
+    show(backToSearchButton)
+    let dataToPost = hotel.makeBooking(searchedCustomer.id, roomNum, searchedDate)
+    postNewBooking(dataToPost)
+  } else if (target.classList.contains('book-it')) {
+    let roomNum = Number(target.id)
+    clearFilterButton.classList.add('disabled')
+    clearFilterButton.disabled = true
+    let dataToPost = hotel.makeBooking(currentCustomer.id, roomNum, searchedDate)
+    postNewBooking(dataToPost)
   }
 })
+
+function successfulPost(date) {
+  if (!!searchedCustomer) {
+    searchSection.innerHTML = `<h1>Customer room successfully booked for ${date}!</h1>`
+    setTimeout(() => {
+      loadManagerDashboard()
+    }, 3000)
+  } else {
+    searchSection.innerHTML = `<h1>Your room was successfully booked for ${date}!</h1>`
+    setTimeout(() => {
+      resetDOM()
+      updateData()
+      showBookings(currentCustomer.bookings)
+    }, 3000)
+  }
+}
 
 backToSearchButton.addEventListener('click', () => {
   showCustomer(searchByName(customerSearch.value))
@@ -129,9 +152,9 @@ backToSearchButton.addEventListener('click', () => {
   show(customerSearchSection)
 })
 
-function findCustomer(num) {
-  let customer = hotel.customers.find(customer => customer.id === num)
-  console.log(customer)
+function findCustomer(id) {
+  id = Number(id)
+  let customer = hotel.customers.find(customer => customer.id === id)
   return customer
 }
 
@@ -186,10 +209,12 @@ function postNewBooking(body) {
       allCustomers = data[0].customers
     })
     .then(() => {
-      resetDOM()
-      updateData()
-      showBookings(currentCustomer.bookings)
+      successfulPost(searchedDate)
     })
+}
+
+function deleteBooking() {
+  
 }
 
 function hide(element) {
@@ -282,6 +307,8 @@ function loadUserDashboard() {
 }
 
 function loadManagerDashboard() {
+  searchSection.innerHTML = ''
+  bookingSection.innerHTML = ''
   hide(loginSection)
   hide(historyButton)
   hide(amountSpent)
@@ -290,6 +317,7 @@ function loadManagerDashboard() {
   show(mainHeader)
   show(main)
   showCustomer(hotel.customers)
+  searchButton.classList.add('manager')
   searchSection.classList.add('manager')
   dashboardH2.innerText = 'Today\'s Snapshot'
   searchH2.innerText = 'Customer Search'
