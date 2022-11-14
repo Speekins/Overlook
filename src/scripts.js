@@ -39,6 +39,13 @@ let username = document.getElementById('username')
 let password = document.getElementById('password')
 let signInButton = document.getElementById('sign-in')
 let loginWarning = document.getElementById('login-warning')
+let amountSpent = document.getElementById('amount-spent')
+let dashboardH2 = document.getElementById('dashboard-h2')
+let searchH2 = document.getElementById('search-h2')
+let customerSearchSection = document.getElementById('customer-search-section')
+let customerSearch = document.getElementById('customer-search')
+let customerSearchButton = document.getElementById('customer-search')
+let searchInputs = document.getElementById('search-inputs')
 
 document.addEventListener('keypress', event => {
   if (event.key === "Enter") {
@@ -52,12 +59,20 @@ signInButton.addEventListener('click', () => {
     show(loginWarning)
     username.value = ''
     password.value = ''
+  } else if (username.value === 'manager') {
+    loadManagerDashboard()
     return
+  } else {
+    fetchUser(username.value)
+    hide(loginSection)
+    show(main)
+    show(mainHeader)
   }
-  fetchUser(username.value)
-  hide(loginSection)
-  show(main)
-  show(mainHeader)
+})
+
+customerSearch.addEventListener('keyup', (e) => {
+  let entry = e.target.value
+  showCustomer(searchByName(entry))
 })
 
 historyButton.addEventListener('click', () => {
@@ -221,7 +236,8 @@ function formatTodaysDate() {
 }
 
 function validateUser(username, password) {
-  return hotel.usernames.includes(username) && password === 'overlook2021'
+  return (hotel.usernames.includes(username) || username === 'manager')
+    && password === 'overlook2021'
 }
 
 function fetchUser(user) {
@@ -235,4 +251,49 @@ function loadUserDashboard() {
   name.innerText = currentCustomer.name.split(' ')[0]
   totalAmount.innerText = `$${currentCustomer.amountSpent}`
   showBookings(currentCustomer.bookings)
+}
+
+function loadManagerDashboard() {
+  hide(loginSection)
+  hide(historyButton)
+  hide(amountSpent)
+  hide(searchInputs)
+  show(customerSearchSection)
+  show(mainHeader)
+  show(main)
+  showCustomer(hotel.customers)
+  dashboardH2.innerText = 'Today\'s Snapshot'
+  searchH2.innerText = 'Customer Search'
+  name.innerText = 'Manager'
+  bookingSection.innerHTML +=
+    `<div class="booking-tile">
+    <p>${hotel.availableRooms}</p>
+    </div>
+    <div class="booking-tile">
+  <p>${hotel.todaysRevenue}</p>
+  </div>
+  <div class="booking-tile">
+  <p>${hotel.percentOccupation}</p>
+  </div>
+  `
+}
+
+function searchByName(string) {
+  string = string.toLowerCase()
+  return hotel.customers.filter(customer => customer.name.toLowerCase().includes(string))
+}
+
+function showCustomer(customers) {
+  searchSection.innerHTML = ''
+  customers.forEach(customer => {
+    searchSection.innerHTML += 
+    `<div id="${customer.id}" class="room-tile">
+      <div class="room-info">
+        <p>NAME: <span class="booking-detail">${customer.name}</span></p>
+        <p>AMOUNT SPENT? <span class="booking-detail">$${customer.amountSpent}</span></p>
+      </div>
+      <button class="customer-bookings" id="${customer.id}">Show Bookings</button>
+      <button class="new-booking" id="${customer.id}">New Booking</button>
+    </div>`
+  })
 }
