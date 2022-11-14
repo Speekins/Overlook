@@ -20,6 +20,7 @@ let allRooms
 let hotel
 let currentCustomer
 let searchedDate
+let searchedCustomer
 
 let loginSection = document.getElementById('login-section')
 let mainHeader = document.getElementById('main-header')
@@ -28,7 +29,6 @@ let bookingSection = document.getElementById('bookings-section')
 let searchSection = document.getElementById('search-content')
 let searchButton = document.getElementById('search-button')
 let selectDate = document.getElementById('select-date')
-let bookButtons
 let filterRoomType = document.getElementById('filter-room-type')
 let historyButton = document.getElementById('history-button')
 let totalAmount = document.getElementById('total-amount')
@@ -46,6 +46,10 @@ let customerSearchSection = document.getElementById('customer-search-section')
 let customerSearch = document.getElementById('customer-search')
 let customerSearchButton = document.getElementById('customer-search')
 let searchInputs = document.getElementById('search-inputs')
+let backToSearchButton = document.getElementById('back-to-search')
+let bookButtons
+let viewCustomerBooking
+let managerBook
 
 document.addEventListener('keypress', event => {
   if (event.key === "Enter") {
@@ -73,6 +77,8 @@ signInButton.addEventListener('click', () => {
 customerSearch.addEventListener('keyup', (e) => {
   let entry = e.target.value
   showCustomer(searchByName(entry))
+  viewCustomerBooking = document.getElementsByClassName('show-customer-bookings')
+  managerBook = document.getElementsByClassName('customer-bookings')
 })
 
 historyButton.addEventListener('click', () => {
@@ -96,16 +102,38 @@ searchButton.addEventListener('click', () => {
 
 searchSection.addEventListener('click', (e) => {
   let target = e.target
-  let array = Array.from(bookButtons)
-  if (!array.includes(target)) {
+  if (target.classList.contains('show-customer-bookings')) {
+    searchedCustomer = findCustomer(Number(target.id))
+    showCustomerBookings(searchedCustomer.bookings)
+    hide(customerSearchSection)
+    show(backToSearchButton)
     return
+  } else if (target.classList.contains('manager-book')) {
+    console.log('Im Da Manager!!!')
+    return
+  } else {
+    let array = Array.from(bookButtons)
+    if (array.includes(target)) {
+      let roomNum = Number(target.id)
+      clearFilterButton.classList.add('disabled')
+      clearFilterButton.disabled = true
+      let dataToPost = hotel.makeBooking(currentCustomer.id, roomNum, searchedDate)
+      postNewBooking(dataToPost)
+    }
   }
-  let roomNum = Number(target.id)
-  clearFilterButton.classList.add('disabled')
-  clearFilterButton.disabled = true
-  let dataToPost = hotel.makeBooking(currentCustomer.id, roomNum, searchedDate)
-  postNewBooking(dataToPost)
 })
+
+backToSearchButton.addEventListener('click', () => {
+  showCustomer(searchByName(customerSearch.value))
+  hide(backToSearchButton)
+  show(customerSearchSection)
+})
+
+function findCustomer(num) {
+  let customer = hotel.customers.find(customer => customer.id === num)
+  console.log(customer)
+  return customer
+}
 
 filterRoomType.addEventListener('input', (e) => {
   if (filterRoomType.value !== 'Filter Rooms') {
@@ -262,6 +290,7 @@ function loadManagerDashboard() {
   show(mainHeader)
   show(main)
   showCustomer(hotel.customers)
+  searchSection.classList.add('manager')
   dashboardH2.innerText = 'Today\'s Snapshot'
   searchH2.innerText = 'Customer Search'
   name.innerText = 'Manager'
@@ -286,14 +315,36 @@ function searchByName(string) {
 function showCustomer(customers) {
   searchSection.innerHTML = ''
   customers.forEach(customer => {
-    searchSection.innerHTML += 
-    `<div id="${customer.id}" class="room-tile">
+    searchSection.innerHTML +=
+      `<div id="${customer.id}" class="room-tile">
       <div class="room-info">
         <p>NAME: <span class="booking-detail">${customer.name}</span></p>
         <p>AMOUNT SPENT? <span class="booking-detail">$${customer.amountSpent}</span></p>
       </div>
-      <button class="customer-bookings" id="${customer.id}">Show Bookings</button>
-      <button class="new-booking" id="${customer.id}">New Booking</button>
+      <button class="show-customer-bookings" id="${customer.id}">Show Bookings</button>
+      <button class="manager-book" id="${customer.id}">New Booking</button>
+    </div>`
+  })
+}
+
+function showCustomerBookings(data) {
+  if (data.length === 0) {
+    warning(bookingSection, 'There\'s nothing to see here!')
+    return
+  }
+  searchSection.innerHTML = ''
+  data.forEach(booking => {
+    let room = hotel.rooms.find(room => room.number === booking.roomNumber)
+    searchSection.innerHTML +=
+      `<div class="booking-tile">
+      <div class="booking-info">
+        <p>DATE: <span class="booking-detail">${booking.date}</span></p>
+        <p>ROOM: <span class="booking-detail">${booking.roomNumber}</span></p>
+        <p>AMOUNT: <span class="booking-detail">$${booking.amount}</span></p>
+        <p>BED: <span class="booking-detail">${room.bedSize}</span></p>
+        <p># OF BEDS: <span class="booking-detail">${room.numBeds}</span></p>
+      </div>
+      <button id="delete" class="delete">Delete this booking</button>
     </div>`
   })
 }
