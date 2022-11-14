@@ -65,7 +65,7 @@ class Hotel {
 
   searchByDate(date) {
     if (!this.validateSearch(date)) {
-      return 'Selected date is in the past.'
+      return 'Selected date is in the past or not in mm/dd/yyyy format.'
     }
     let unavailable = this.bookings.filter(booking => booking.date === date)
       .map(booking => booking.roomNumber)
@@ -95,7 +95,9 @@ class Hotel {
   }
 
   validateSearch(date) {
-    return this.convertDateToNum(this.date) <= this.convertDateToNum(date)
+    let isDate = date.length === 10
+    let isNotPast = this.convertDateToNum(this.date) <= this.convertDateToNum(date)
+    return isDate && isNotPast
   }
 }
 
