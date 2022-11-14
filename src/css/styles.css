@@ -10,6 +10,37 @@ body {
   font-weight: 300;
 }
 
+.login-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.login-logo {
+  width: 800px;
+  margin-bottom: 20px;
+}
+
+.sign-in {
+  margin-top: 20px;
+  font-size: 18px;
+  padding: 0 15px;
+  color: white;
+  background-color: black;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  transition-duration: 300ms;
+}
+
+.sign-in:hover {
+  cursor: pointer;
+  transform: scale(1.05);
+  color: rgb(237, 201, 119);
+  border: 1px solid rgb(237, 201, 119);
+}
+
 .main-header {
   display: flex;
   height: 200px;

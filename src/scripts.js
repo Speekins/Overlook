@@ -1,5 +1,6 @@
 import { fetchData, fetchAll } from './apiCalls'
 import Hotel from './classes/hotel'
+import Customer from './classes/customer'
 import './css/reset.css'
 import './css/styles.css'
 import './images/king.jpg'
@@ -20,6 +21,9 @@ let hotel
 let currentCustomer
 let searchedDate
 
+let loginSection = document.getElementById('login-section')
+let mainHeader = document.getElementById('main-header')
+let main = document.getElementById('main')
 let bookingSection = document.getElementById('bookings-section')
 let searchSection = document.getElementById('search-content')
 let searchButton = document.getElementById('search-button')
@@ -27,16 +31,33 @@ let selectDate = document.getElementById('select-date')
 let bookButtons
 let filterRoomType = document.getElementById('filter-room-type')
 let historyButton = document.getElementById('history-button')
-let username = document.getElementById('username')
 let totalAmount = document.getElementById('total-amount')
 let backToBookingsButton = document.getElementById('back-to-bookings')
 let clearFilterButton = document.getElementById('clear-filter')
+let name = document.getElementById('name')
+let username = document.getElementById('username')
+let password = document.getElementById('password')
+let signInButton = document.getElementById('sign-in')
+let loginWarning = document.getElementById('login-warning')
 
 document.addEventListener('keypress', event => {
   if (event.key === "Enter") {
     event.preventDefault()
     event.target.click()
   }
+})
+
+signInButton.addEventListener('click', () => {
+  if (!validateUser(username.value, password.value)) {
+    show(loginWarning)
+    username.value = ''
+    password.value = ''
+    return
+  }
+  fetchUser(username.value)
+  hide(loginSection)
+  show(main)
+  show(mainHeader)
 })
 
 historyButton.addEventListener('click', () => {
@@ -102,12 +123,8 @@ addEventListener('load', () => {
     })
     .then(() => {
       hotel = new Hotel(allBookings, allCustomers, allRooms)
-      currentCustomer = assignCustomer()
-      username.innerText = currentCustomer.name.split(' ')[0]
-      totalAmount.innerText = `$${currentCustomer.amountSpent}`
       selectDate.value = formatTodaysDate()
       selectDate.min = formatTodaysDate()
-      showBookings(currentCustomer.bookings)
     })
 })
 
@@ -142,7 +159,7 @@ function show(element) {
 
 function showBookings(data) {
   if (data.length === 0) {
-    warning(bookingSection, 'You have no past bookings to show')
+    warning(bookingSection, 'There\'s nothing to see here!')
     return
   }
   bookingSection.innerHTML = ''
@@ -188,20 +205,6 @@ function warning(section, string) {
   section.innerHTML = `<p class="warning">${string}</p>`
 }
 
-// function bookedUp() {
-//   let sorted = hotel.bookings.reduce((acc, booking) => {
-//     acc[booking.date] ? acc[booking.date] += 1 : acc[booking.date] = 1
-//     return acc
-//   }, {})
-//   let index = Object.values(sorted).indexOf(25);
-//   console.log(Object.keys(sorted)[index])
-// }
-
-function assignCustomer() {
-  let randomNum = Math.floor(Math.random() * hotel.customers.length)
-  return hotel.customers[randomNum]
-}
-
 function updateData() {
   hotel = new Hotel(allBookings, allCustomers, allRooms)
   currentCustomer = hotel.customers.find(customer => customer.id === currentCustomer.id)
@@ -215,4 +218,21 @@ function resetDOM() {
 function formatTodaysDate() {
   let formatedDate = hotel.date.replaceAll('/', '-')
   return formatedDate
+}
+
+function validateUser(username, password) {
+  return hotel.usernames.includes(username) && password === 'overlook2021'
+}
+
+function fetchUser(user) {
+  let id = user.slice(8)
+  fetchData(`http://localhost:3001/api/v1/customers/${id}`)
+    .then(data => currentCustomer = new Customer(data, hotel.bookings))
+    .then(() => loadUserDashboard())
+}
+
+function loadUserDashboard() {
+  name.innerText = currentCustomer.name.split(' ')[0]
+  totalAmount.innerText = `$${currentCustomer.amountSpent}`
+  showBookings(currentCustomer.bookings)
 }
