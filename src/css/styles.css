@@ -10,6 +10,10 @@ body {
   font-weight: 300;
 }
 
+label {
+  margin-right: 10px
+}
+
 .login-section {
   display: flex;
   flex-direction: column;
@@ -21,6 +25,16 @@ body {
 .login-logo {
   width: 800px;
   margin-bottom: 20px;
+}
+
+.login-section input {
+  width: 20%;
+  font-size: 20px;
+}
+
+.login-section label {
+  font-size: 18px;
+  margin: 10px;
 }
 
 .sign-in {
@@ -225,7 +239,7 @@ main {
   border: rgb(237, 201, 119) 1px solid;
   border-radius: 15px;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 
 .room-tile button {

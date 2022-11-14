@@ -11,6 +11,9 @@ import './images/queen.jpg'
 import './images/overlook2.png'
 import './images/overlook_black.png'
 import './images/overlook_white.png'
+import './images/overlook-banner-1.jpg'
+import './images/overlook-banner2.jpg'
+import './images/overlook-banner3.jpg'
 import './images/overlook-banner4.jpg'
 
 let allURL = ['http://localhost:3001/api/v1/customers', 'http://localhost:3001/api/v1/bookings', 'http://localhost:3001/api/v1/rooms']
@@ -215,6 +218,7 @@ function postNewBooking(body) {
       allCustomers = data[0].customers
     })
     .then(() => {
+      hotel = new Hotel(allBookings, allCustomers, allRooms)
       successfulPost(searchedDate)
     })
 }
@@ -334,6 +338,8 @@ function loadUserDashboard() {
 function loadManagerDashboard() {
   searchSection.innerHTML = ''
   bookingSection.innerHTML = ''
+  mainHeader.style.backgroundImage = "url('./images/overlook-banner2.jpg')"
+  mainHeader.style.backgroundPosition = "50% 60%"
   hide(loginSection)
   hide(historyButton)
   hide(amountSpent)
