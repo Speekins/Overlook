@@ -67,6 +67,9 @@ addEventListener('load', () => {
       selectDate.value = formatTodaysDate()
       selectDate.min = formatTodaysDate()
     })
+    .catch(error => {
+      errorResponse(error, loginSection)
+    })
 })
 
 document.addEventListener('keypress', event => {
@@ -203,6 +206,9 @@ function postNewBooking(body) {
     .then(response => response.json())
     .then(() => fetchAll(allURL))
     .then(data => {
+      if (data.ok === false) {
+        throw Error(data.statusText)
+      }
       allBookings = data[1].bookings
       allCustomers = data[0].customers
     })
@@ -210,6 +216,8 @@ function postNewBooking(body) {
       hotel = new Hotel(allBookings, allCustomers, allRooms)
       successfulPost(searchedDate)
     })
+    .catch(error => warning(searchSection, error))
+    
 }
 
 function deleteBooking(id) {
@@ -221,6 +229,9 @@ function deleteBooking(id) {
   })
     .then(() => fetchAll(allURL))
     .then(data => {
+      if (data.ok === false) {
+        throw Error(data.statusText)
+      }
       allBookings = data[1].bookings
       allCustomers = data[0].customers
     })
@@ -228,18 +239,38 @@ function deleteBooking(id) {
       hotel = new Hotel(allBookings, allCustomers, allRooms)
       searchSection.innerHTML = `<h1>Booking successfully deleted for ${searchedCustomer.name}!</h1>`
       setTimeout(() => {
+        loadManagerDashboard()
         showCustomers(findCustomer(customerSearch.value))
         hide(backToSearchButton)
         show(customerSearchSection)
       }, 3000)
     })
+    .catch(error => warning(error, searchSection))
 }
 
 function fetchUser(user) {
   let id = user.slice(8)
   fetchData(`http://localhost:3001/api/v1/customers/${id}`)
-    .then(data => currentCustomer = new Customer(data, hotel.bookings))
+    .then(data => {
+      currentCustomer = new Customer(data, hotel.bookings)
+    })
     .then(() => loadUserDashboard())
+    .catch(error => errorResponse(error, bookingSection))
+}
+
+function errorResponse(error, section) {
+  if (error instanceof TypeError) {
+    warning(section, 'There was a problem on our end...?')
+    return
+  } else if (error instanceof ReferenceError) {
+    warning(section, 'There was a problem somewhere else... I think.')
+    return 
+  } else if (error instanceof SyntaxError) {
+    warning(section, 'Something was spelled wrong?')
+    return 
+  } else {
+    warning(section, 'There appears to be a bit of a problem.')
+  }
 }
 
 //<<<<------------------------------------------Utility Functions------------------------------------------>>>>
@@ -332,6 +363,7 @@ function showSearchResult(result) {
 
 //<<<<------------------------------------------Manager Dashboard------------------------------------------>>>>
 function loadManagerDashboard() {
+  resetDOM()
   mainHeader.style.backgroundImage = "url('./images/overlook-banner2.jpg')"
   mainHeader.style.backgroundPosition = "50% 60%"
   hide(loginSection, historyButton, amountSpent, searchInputs)

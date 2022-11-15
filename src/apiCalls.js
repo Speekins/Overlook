@@ -1,6 +1,11 @@
 function fetchData(url) {
   return fetch(url)
-  .then(response => response.json())
+    .then(response => {
+      if (response.ok) {
+        return response.json()
+      }
+      return response
+    })
 }
 
 function fetchAll(urls) {
