@@ -11,6 +11,9 @@ import './images/queen.jpg'
 import './images/overlook2.png'
 import './images/overlook_black.png'
 import './images/overlook_white.png'
+import './images/overlook-banner-1.jpg'
+import './images/overlook-banner2.jpg'
+import './images/overlook-banner3.jpg'
 import './images/overlook-banner4.jpg'
 
 let allURL = ['http://localhost:3001/api/v1/customers', 'http://localhost:3001/api/v1/bookings', 'http://localhost:3001/api/v1/rooms']
@@ -48,8 +51,10 @@ let customerSearchButton = document.getElementById('customer-search')
 let searchInputs = document.getElementById('search-inputs')
 let backToSearchButton = document.getElementById('back-to-search')
 let bookButtons
+let deleteButtons
 let viewCustomerBooking
 let managerBook
+let roomsAvailable
 
 document.addEventListener('keypress', event => {
   if (event.key === "Enter") {
@@ -107,12 +112,15 @@ searchSection.addEventListener('click', (e) => {
     showCustomerBookings(searchedCustomer.bookings)
     hide(customerSearchSection)
     show(backToSearchButton)
-    return
+    deleteButtons = document.getElementsByClassName('delete')
   } else if (target.classList.contains('manager-book')) {
     searchedCustomer = findCustomer(target.id)
     searchSection.innerHTML = ''
-    show(searchInputs)
-    return
+    show(searchInputs, backToSearchButton)
+    hide(customerSearchSection)
+  } else if (target.classList.contains('delete')) {
+    let bookingID = target.id
+    deleteBooking(bookingID)
   } else if (!currentCustomer) {
     let roomNum = Number(target.id)
     clearFilterButton.classList.add('disabled')
@@ -132,7 +140,8 @@ searchSection.addEventListener('click', (e) => {
 
 function successfulPost(date) {
   if (!!searchedCustomer) {
-    searchSection.innerHTML = `<h1>Customer room successfully booked for ${date}!</h1>`
+    searchSection.innerHTML = `<h1>Room successfully booked for
+     ${searchedCustomer.name} on ${date}!</h1>`
     setTimeout(() => {
       loadManagerDashboard()
     }, 3000)
@@ -148,7 +157,7 @@ function successfulPost(date) {
 
 backToSearchButton.addEventListener('click', () => {
   showCustomer(searchByName(customerSearch.value))
-  hide(backToSearchButton)
+  hide(backToSearchButton, searchInputs)
   show(customerSearchSection)
 })
 
@@ -209,20 +218,44 @@ function postNewBooking(body) {
       allCustomers = data[0].customers
     })
     .then(() => {
+      hotel = new Hotel(allBookings, allCustomers, allRooms)
       successfulPost(searchedDate)
     })
 }
 
-function deleteBooking() {
-  
+function deleteBooking(id) {
+  fetch(`http://localhost:3001/api/v1/bookings/${id}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-type': 'application/json'
+    }
+  })
+    .then(() => fetchAll(allURL))
+    .then(data => {
+      allBookings = data[1].bookings
+      allCustomers = data[0].customers
+    })
+    .then(() => {
+      hotel = new Hotel(allBookings, allCustomers, allRooms)
+      searchSection.innerHTML = `<h1>Booking successfully deleted for ${searchedCustomer.name}!</h1>`
+      setTimeout(() => {
+        showCustomer(searchByName(customerSearch.value))
+        hide(backToSearchButton)
+        show(customerSearchSection)
+      }, 3000)
+    })
 }
 
-function hide(element) {
-  element.classList.add('hidden')
+function hide(...elements) {
+  elements.forEach(element => {
+    element.classList.add('hidden')
+  })
 }
 
-function show(element) {
-  element.classList.remove('hidden')
+function show(...elements) {
+  elements.forEach(element => {
+    element.classList.remove('hidden')
+  })
 }
 
 function showBookings(data) {
@@ -260,8 +293,8 @@ function showSearchResult(result) {
         <p>TYPE: <span class="booking-detail">${room.roomType}</span></p>
         <p>BIDET? <span class="booking-detail">${room.bidet}</span></p>
         <p>PER NIGHT: <span class="booking-detail">$${room.costPerNight}</span></p>
-        <p>BED SIZE: <span class="booking-detail">${room.bedSize}</span></p>
-        <p>BED COUNT: <span class="booking-detail">${room.numBeds}</span></p>
+        <p>BED(S): <span class="booking-detail">${room.numBeds} ${room.bedSize}</span></p>
+        <p>ROOM: <span class="booking-detail">#${room.number}</span></p>
       </div>
       <button class="book-it" id="${room.number}">Book Room</button>
       <img class="room-image" src=${room.image} alt="${room.roomType}">
@@ -307,32 +340,44 @@ function loadUserDashboard() {
 }
 
 function loadManagerDashboard() {
-  searchSection.innerHTML = ''
-  bookingSection.innerHTML = ''
-  hide(loginSection)
-  hide(historyButton)
-  hide(amountSpent)
-  hide(searchInputs)
-  show(customerSearchSection)
-  show(mainHeader)
-  show(main)
+  resetDOM()
+  mainHeader.style.backgroundImage = "url('./images/overlook-banner2.jpg')"
+  mainHeader.style.backgroundPosition = "50% 60%"
+  hide(loginSection, historyButton, amountSpent, searchInputs)
+  show(main, mainHeader, customerSearchSection)
   showCustomer(hotel.customers)
-  searchButton.classList.add('manager')
-  searchSection.classList.add('manager')
+  // searchButton.classList.add('manager')
+  // searchSection.classList.add('manager')
   dashboardH2.innerText = 'Today\'s Snapshot'
   searchH2.innerText = 'Customer Search'
   name.innerText = 'Manager'
+  populateTodaysSnapshot()
+}
+
+function populateTodaysSnapshot() {
   bookingSection.innerHTML +=
-    `<div class="booking-tile">
-    <p>${hotel.availableRooms}</p>
+    `<div class="booking-tile snapshot">
+    <h3>Rooms Available</h3>
+    <span id="rooms-available"></span>
     </div>
-    <div class="booking-tile">
-  <p>${hotel.todaysRevenue}</p>
+    <div class="booking-tile snapshot">
+    <h3>Today's Total Revenue</h3>
+  <h1>$${hotel.todaysRevenue}</h1>
   </div>
-  <div class="booking-tile">
-  <p>${hotel.percentOccupation}</p>
+  <div class="booking-tile snapshot">
+  <h3>Room % Occupied</h3>
+  <h1>${hotel.percentOccupation}</h1>
   </div>
   `
+  populateRoomsAvailable()
+}
+
+function populateRoomsAvailable() {
+  let roomsAvailable = document.getElementById('rooms-available')
+  console.log(hotel.availableRooms)
+  hotel.availableRooms.forEach(roomNum => {
+    roomsAvailable.innerHTML += `<p>Room ${roomNum} |</p>`
+  })
 }
 
 function searchByName(string) {
@@ -341,6 +386,9 @@ function searchByName(string) {
 }
 
 function showCustomer(customers) {
+  if (!customers.length) {
+    customers = hotel.customers
+  }
   searchSection.innerHTML = ''
   customers.forEach(customer => {
     searchSection.innerHTML +=
@@ -357,7 +405,7 @@ function showCustomer(customers) {
 
 function showCustomerBookings(data) {
   if (data.length === 0) {
-    warning(bookingSection, 'There\'s nothing to see here!')
+    warning(searchSection, 'There\'s nothing to see here!')
     return
   }
   searchSection.innerHTML = ''
@@ -372,7 +420,7 @@ function showCustomerBookings(data) {
         <p>BED: <span class="booking-detail">${room.bedSize}</span></p>
         <p># OF BEDS: <span class="booking-detail">${room.numBeds}</span></p>
       </div>
-      <button id="delete" class="delete">Delete this booking</button>
+      <button id="${booking.id}" class="delete">Delete this booking</button>
     </div>`
   })
 }
