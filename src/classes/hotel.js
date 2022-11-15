@@ -10,6 +10,9 @@ class Hotel {
     this.date = this.getCurrentDate()
     this.time = this.getCurrentTime()
     this.exactTime = Date.now()
+    this.availableRooms = this.getAvailableRooms()
+    this.todaysRevenue = this.getTodaysRevenue()
+    this.percentOccupation = this.calculatePercentOccupation()
     this.searchResult
     this.usernames = this.loadUsernames()
   }
@@ -64,8 +67,31 @@ class Hotel {
     return { "userID": userID, "date": date, "roomNumber": roomNumber }
   }
 
-  getTodaysBookings() {
+  getOccupiedRooms() {
     return this.bookings.filter(booking => booking.date === this.date)
+      .map(booking => booking.roomNumber)
+  }
+
+  getAvailableRooms() {
+    let occupiedRooms = this.getOccupiedRooms()
+    return this.rooms.filter(room => !occupiedRooms.includes(room.number))
+      .map(room => room.number)
+  }
+
+  calculatePercentOccupation() {
+    let occupiedRooms = this.getOccupiedRooms().length
+    let percent = ((occupiedRooms / this.rooms.length) * 100).toFixed(2)
+    return `${percent} %`
+  }
+
+  getTodaysRevenue() {
+    let occupiedRooms = this.getOccupiedRooms()
+    return this.rooms.reduce((total, room) => {
+      if (occupiedRooms.includes(room.number)) {
+        total += room.costPerNight
+      }
+      return total
+    }, 0)
   }
 
   searchByDate(date) {
