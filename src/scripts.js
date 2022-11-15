@@ -203,7 +203,12 @@ function postNewBooking(body) {
       'Content-Type': 'application/json'
     }
   })
-    .then(response => response.json())
+    .then(response => {
+      if (response.ok === false) {
+        throw Error(response.statusText)
+      }
+      return response.json()
+    })
     .then(() => fetchAll(allURL))
     .then(data => {
       if (data.ok === false) {
@@ -216,8 +221,8 @@ function postNewBooking(body) {
       hotel = new Hotel(allBookings, allCustomers, allRooms)
       successfulPost(searchedDate)
     })
-    .catch(error => warning(searchSection, error))
-    
+    .catch(error => errorResponse(error, searchSection))
+
 }
 
 function deleteBooking(id) {
@@ -227,6 +232,11 @@ function deleteBooking(id) {
       'Content-type': 'application/json'
     }
   })
+    .then(response => {
+      if (response.ok === false) {
+        throw Error(response.statusText)
+      }
+    })
     .then(() => fetchAll(allURL))
     .then(data => {
       if (data.ok === false) {
@@ -245,7 +255,7 @@ function deleteBooking(id) {
         show(customerSearchSection)
       }, 3000)
     })
-    .catch(error => warning(error, searchSection))
+    .catch(error => errorResponse(error, searchSection))
 }
 
 function fetchUser(user) {
@@ -264,10 +274,10 @@ function errorResponse(error, section) {
     return
   } else if (error instanceof ReferenceError) {
     warning(section, 'There was a problem somewhere else... I think.')
-    return 
+    return
   } else if (error instanceof SyntaxError) {
     warning(section, 'Something was spelled wrong?')
-    return 
+    return
   } else {
     warning(section, 'There appears to be a bit of a problem.')
   }

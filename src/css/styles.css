@@ -340,6 +340,10 @@ main {
   pointer-events: none;
 }
 
+.warning {
+  color: red
+}
+
 @media (max-width: 1200px) {
   .room-image {
     width: 150px;
