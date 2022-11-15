@@ -1,99 +1,72 @@
-# Webpack Starter Kit
+# What's Cookin'? Project
 
-## Clone This Repo
+### All Recipes View
+![updated-allrec](https://user-images.githubusercontent.com/110144802/200438259-1e561d48-30fd-4236-afa4-557df75102d1.gif)
 
-That's right, _clone_ not fork. You will use this repo multiple times, but you can only fork a repository once. So here is what you need to do to clone the repo and still be able to push changes to your repo:
+### My Recipes View
+![updated-myrecipe](https://user-images.githubusercontent.com/110144802/200620308-f178d2a1-9e1a-497a-971c-735e503ebe4e.gif)
 
-1. Clone down this repo. Since you don't want to name your project "webpack-starter-kit", you can use an optional argument when you run `git clone` (you replace the `[...]` with the terminal command arguments): `git clone [remote-address] [what you want to name the repo]`
-1. Remove the default remote: `git remote rm origin` (notice that `git remote -v` not gives you back nothing)
-1. Create a new repo on GitHub with the name of `[what you want to name the repo]` to be consistent with naming
-1. Copy the address that you would use to clone down this repo - something like `git@github.com:...`
-1. Add this remote to your cloned down repo: `git remote add origin [address you copied in the previous step]` - do not include the brackets
+### Abstract
+Our fully remote team created a recipe site that presents users with an array of recipe cards which they can filter and search through by the type of recipe they are looking for while saving recipes to their "My Recipes" view. When viewing a recipe, users will be informed if they have the required ingredients in their pantry with the option to add them. There is a "My Recipes" view where users can review their bookmarked recipes and add any needed ingredients to their pantry. Users will find the site to be thoughtfully-designed, intuitive, and responsive to various screen sizes. 
 
-Now try to commit something (just add a line in the README) and push it up to your new repo. If everything is setup correctly, you should see the changes on GitHub.
+This team project took place in the second term of the Turing front-end software engineering program and required students to synthesize all the technical and project management skills we have honed over the past weeks to create a fully functioning site from the design phase to production in four weeks. This project required extensive research to determine and implement new technologies to make the product surpass expectations.
 
-## Setup
+### Feature Spotlight
+In order to provide users with an expanded view of any recipe, we researched and determined MicroModal.js to be the best solution. We successfully implemented MicroModal as seen in the above gif. Users are able to see in red and green which ingredients they will need to add before cooking the selected recipe. This view is dynamic and guides the user if they are able to proceed with cooking the selected recipe—thus removing those ingredients from their pantry—or if they still need to add more ingredients beforehand.
 
-After one person has gone through the steps of cloning down this repo and editing the remote, everyone should clone down the repo.
+### Contributors
+[Spencer Haka](https://github.com/Speekins)\
+[Tim Thomas](https://github.com/nalito223)\
+[Sam Rice](https://github.com/sam-rice)\
+[Zac Walters](https://github.com/zacwalters4)
 
-Then install the library dependencies. Run:
+### Research and Documentation 
+Design document we developed with Excalidraw: 
 
-```bash
-npm install
-```
+<img width="721" alt="design-document" src="https://user-images.githubusercontent.com/110144802/197453877-d2a7e9bf-8101-469c-a3d1-78357162ab3c.png">
 
-To verify that it is setup correctly, run `npm start` in your terminal. Go to `http://localhost:8080/` and you should see a page with the Turing logo image and a beautiful gradient background. If that's the case, you're good to go. Enter `control + c` in your terminal to stop the server at any time.
+Our data model and DOM flowchart:
 
-## Where to Add Your Code
+<img width="721" alt="datamodel-dom-flowchart" src="https://user-images.githubusercontent.com/110144802/197453843-48b590fb-aa9b-49c7-b5c8-ca69880ec131.png">
 
-### JavaScript
+Agile/Scrum project board we created and managed in GitHub:
 
-You have to be very intentional with where you add your feature code. This repo uses a tool called [webpack](https://webpack.js.org/) to combine many JavaScript files into one big file. Webpack enables you to have many, separate JavaScript files to keep your code organized and readable. Webpack expects all of your code files to be in a specific place, or else it doesn't know how to combine them all behind the scenes.
+<img width="721" alt="project-board" src="https://user-images.githubusercontent.com/110144802/197453829-63de494b-d4f5-4438-9d22-38b9bccbe7b8.png">
 
-**Create all of your feature code files in the `src` directory.**
 
-Since code is separated into multiple files, you need to use the `import` and `export` syntax to share code across file.
+### Technologies
+- MicroModal.js 3rd party library
+- Fetch API 
+- Lighthouse and WAVE accessibility tools 
+- Webpack module bundler 
+- Git/GitHub
+- GitHub project board 
+- JavaScript
+- CSS 
+- HTML 
+- Mocha JavaScript testing framework
+- Chai assertion library 
+- Node.JS
+- Excalidraw 
 
-Here is a video that walks through some information about [import and export](https://www.youtube.com/watch?v=_3oSWwapPKQ). There are a lot of resources out there about `import` and `export`, and resources will sometimes call them `ES6 modules`. It's something you will see in React and beyond.
+### Methodologies
+- Design the UI to adapt to various screen sizes
+- Test-driven development 
+- Error handling 
+- Ensure accessiblity through WAI ARIA states, roles, and properties 
+- Implement ES6 classes which support a complex data model
+- Use object and array prototype methods to perform data manipulation
+- Create a user interface that is easy to use and clearly displays information
+- Write modular, reusable code that follows SRP (Single Responsibility Principle)
+- Implement a robust testing suite using TDD
+- Make network requests to retrieve data
+- Demonstrate DRY principles 
+- Utilize Agile/Scrum project management 
 
-### HTML
-
-Add the HTML you need in the `index.html` file in the `./dist` directory. There is some boilerplate HTML that exists from the start that you can modify.
-
-### Images
-
-Add your image files in the `src/images` directory. Similar to CSS files, you need to `import` image files in the JavaScript entry file (`scripts.js`). Then go into the HTML and add an `img` element with the `src` attribute pointing to the `images` directory. There is an example in the `index.html` file for you to see.
-
-## How to View Your Code in Action
-
-In the terminal, run:
-
-```bash
-npm start
-```
-
-You will see a bunch of lines output to your terminal. One of those lines will be something like:
-
-```bash
-Project is running at http://localhost:8080/
-```
-
-Go to `http://localhost:8080/` in your browser to view your code running in the browser.
-
----
-
-## Test Files Organization
-
-Similar to feature code, your test code needs to be put in a specific place for it to run successfully.
-
-**Put all of your test files in the `test` directory.** As a convention, all test filenames should end with `-test.js`. For instance: `box-test.js`.
-
-## Running Your Tests
-
-Run your test suite using the command:
-
-```bash
-npm test
-```
-
-The test results will output to the terminal.
-
----
-
-## Linting Your Code
-
-Run the command in your terminal `npm run lint` to run the linter on your JavaScript code. There will be errors and warnings right from the start in this starter kit - the linter is still running successfully.
-
-Your linter will look at the JavaScript files you have within the `src` directory and the `test` directory.
-
-## Webpack?
-
-If you look in the `package.json` file, you'll see one of the library dependencies called `webpack`. If you're interested in learning more about what Webpack is and how it works behind the scenes, take a look through the [Webpack configuration documentation](https://webpack.js.org/concepts/).
-
-## Deploying to GitHub Pages
-
-_If you are finished with the functionality and testing of your project_, then you can consider deploying your project to the web! This way anyone can play it without cloning down your repo.
-
-[GitHub Pages](https://pages.github.com/) is a great way to deploy your project to the web. Don't worry about this until your project is free of bugs and well tested!
-
-If you _are_ done, you can follow [this procedure](./gh-pages-procedure.md) to get your project live on GitHub Pages.
+### Installation Instructions
+1. Fork this repository.
+2. Clone your new, forked repository to your local machine.
+3. Clone [this API repository](https://github.com/turingschool-examples/whats-cookin-api) to your machine.
+4. `cd` into the API repository on your local machine and run `npm install`, then `npm start` to launch the API's server.
+5. In a seperate tab, `cd` into the main project repository on your local machine and run `npm install`, then npm start to launch the application's server.
+7. Open the link to your local server (listed in your terminal) in your web browser to view the live page.
