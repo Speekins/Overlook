@@ -11,6 +11,7 @@ class Hotel {
     this.time = this.getCurrentTime()
     this.exactTime = Date.now()
     this.searchResult
+    this.usernames = this.loadUsernames()
   }
 
   instantiateRooms(rooms) {
@@ -40,6 +41,10 @@ class Hotel {
 
   instantiateCustomers(customers) {
     return customers.map(customer => new Customer(customer, this.bookings))
+  }
+
+  loadUsernames() {
+    return this.customers.map(customer => `customer${customer.id}`)
   }
 
   getCurrentDate() {

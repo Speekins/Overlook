@@ -14,14 +14,23 @@
 </head>
 
 <body>
-  <header class="main-header">
+  <section id="login-section" class="login-section">
+    <img class="login-logo" src="./images/overlook_white.png">
+    <label for="username">Username</label>
+    <input type="text" id="username" name="username">
+    <label for="username">Password</label>
+    <input type="password" id="password" name="password">
+    <button aria-label="sign in" id="sign-in" class="sign-in">Sign In</button>
+    <p class="login-warning hidden" id="login-warning">The username or password is incorrect</p>
+  </section>
+  <header class="main-header hidden" id="main-header">
     <div class="header-content">
       <img src="./images/overlook_white.png" id="logo"
         alt="overlook hotel logo">
-      <h1>Welcome, <span id="username"></span>!</h1>
+      <h1>Welcome, <span id="name"></span>!</h1>
     </div>
   </header>
-  <main>
+  <main class="hidden" id="main">
     <section class="my-bookings" id="my-bookings">
       <header class="my-bookings-header">
         <div class="div1">
