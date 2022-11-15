@@ -107,7 +107,6 @@ addEventListener('load', () => {
       totalAmount.innerText = `$${currentCustomer.amountSpent}`
       selectDate.value = formatTodaysDate()
       selectDate.min = formatTodaysDate()
-      console.log(Date.now())
       showBookings(currentCustomer.bookings)
     })
 })
