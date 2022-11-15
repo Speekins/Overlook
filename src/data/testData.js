@@ -41,6 +41,10 @@ let testCustomerData = [
   }
 ]
 
+let testUsernames = ['customer1', 'customer2', 'customer3', 'customer4',
+  'customer5', 'customer6', 'customer7', 'customer8', 'customer9', 'customer10']
+
+
 let testRoomData = [
   {
     "number": 1,
@@ -48,7 +52,8 @@ let testRoomData = [
     "bidet": true,
     "bedSize": "queen",
     "numBeds": 1,
-    "costPerNight": 358.4
+    "costPerNight": 358.4,
+    "image": "./images/queen.jpg"
   },
   {
     "number": 2,
@@ -56,7 +61,8 @@ let testRoomData = [
     "bidet": false,
     "bedSize": "full",
     "numBeds": 2,
-    "costPerNight": 477.38
+    "costPerNight": 477.38,
+    "image": "./images/suite.jpg"
   },
   {
     "number": 3,
@@ -64,7 +70,8 @@ let testRoomData = [
     "bidet": false,
     "bedSize": "king",
     "numBeds": 1,
-    "costPerNight": 491.14
+    "costPerNight": 491.14,
+    "image": "./images/single.jpg"
   },
   {
     "number": 4,
@@ -72,7 +79,8 @@ let testRoomData = [
     "bidet": false,
     "bedSize": "queen",
     "numBeds": 1,
-    "costPerNight": 429.44
+    "costPerNight": 429.44,
+    "image": "./images/single.jpg"
   },
   {
     "number": 5,
@@ -80,7 +88,8 @@ let testRoomData = [
     "bidet": true,
     "bedSize": "queen",
     "numBeds": 2,
-    "costPerNight": 340.17
+    "costPerNight": 340.17,
+    "image": "./images/single.jpg"
   },
   {
     "number": 6,
@@ -88,7 +97,8 @@ let testRoomData = [
     "bidet": true,
     "bedSize": "queen",
     "numBeds": 1,
-    "costPerNight": 397.02
+    "costPerNight": 397.02,
+    "image": "./images/junior-suite.jpg"
   },
   {
     "number": 7,
@@ -96,7 +106,8 @@ let testRoomData = [
     "bidet": false,
     "bedSize": "queen",
     "numBeds": 2,
-    "costPerNight": 231.46
+    "costPerNight": 231.46,
+    "image": "./images/single.jpg"
   },
   {
     "number": 8,
@@ -104,7 +115,8 @@ let testRoomData = [
     "bidet": false,
     "bedSize": "king",
     "numBeds": 1,
-    "costPerNight": 261.26
+    "costPerNight": 261.26,
+    "image": "./images/junior-suite.jpg"
   },
   {
     "number": 9,
@@ -112,7 +124,8 @@ let testRoomData = [
     "bidet": true,
     "bedSize": "queen",
     "numBeds": 1,
-    "costPerNight": 200.39
+    "costPerNight": 200.39,
+    "image": "./images/single.jpg"
   },
   {
     "number": 10,
@@ -120,7 +133,8 @@ let testRoomData = [
     "bidet": false,
     "bedSize": "twin",
     "numBeds": 1,
-    "costPerNight": 497.64
+    "costPerNight": 497.64,
+    "image": "./images/suite.jpg"
   }
 ]
 
@@ -364,7 +378,8 @@ let filteredByDate = [
     "bidet": true,
     "bedSize": "queen",
     "numBeds": 1,
-    "costPerNight": 358.4
+    "costPerNight": 358.4,
+    "image": "./images/queen.jpg"
   },
   {
     "number": 2,
@@ -372,7 +387,8 @@ let filteredByDate = [
     "bidet": false,
     "bedSize": "full",
     "numBeds": 2,
-    "costPerNight": 477.38
+    "costPerNight": 477.38,
+    "image": "./images/suite.jpg"
   },
   {
     "number": 3,
@@ -380,7 +396,8 @@ let filteredByDate = [
     "bidet": false,
     "bedSize": "king",
     "numBeds": 1,
-    "costPerNight": 491.14
+    "costPerNight": 491.14,
+    "image": "./images/single.jpg"
   },
   {
     "number": 4,
@@ -388,7 +405,8 @@ let filteredByDate = [
     "bidet": false,
     "bedSize": "queen",
     "numBeds": 1,
-    "costPerNight": 429.44
+    "costPerNight": 429.44,
+    "image": "./images/single.jpg"
   },
   {
     "number": 5,
@@ -396,7 +414,8 @@ let filteredByDate = [
     "bidet": true,
     "bedSize": "queen",
     "numBeds": 2,
-    "costPerNight": 340.17
+    "costPerNight": 340.17,
+    "image": "./images/single.jpg"
   },
   {
     "number": 6,
@@ -404,7 +423,8 @@ let filteredByDate = [
     "bidet": true,
     "bedSize": "queen",
     "numBeds": 1,
-    "costPerNight": 397.02
+    "costPerNight": 397.02,
+    "image": "./images/junior-suite.jpg"
   },
   {
     "number": 8,
@@ -412,7 +432,8 @@ let filteredByDate = [
     "bidet": false,
     "bedSize": "king",
     "numBeds": 1,
-    "costPerNight": 261.26
+    "costPerNight": 261.26,
+    "image": "./images/junior-suite.jpg"
   },
   {
     "number": 9,
@@ -420,7 +441,8 @@ let filteredByDate = [
     "bidet": true,
     "bedSize": "queen",
     "numBeds": 1,
-    "costPerNight": 200.39
+    "costPerNight": 200.39,
+    "image": "./images/single.jpg"
   },
   {
     "number": 10,
@@ -428,7 +450,8 @@ let filteredByDate = [
     "bidet": false,
     "bedSize": "twin",
     "numBeds": 1,
-    "costPerNight": 497.64
+    "costPerNight": 497.64,
+    "image": "./images/suite.jpg"
   }
 ]
 
@@ -439,7 +462,8 @@ let juniorSuites = [
     "bidet": true,
     "bedSize": "queen",
     "numBeds": 1,
-    "costPerNight": 397.02
+    "costPerNight": 397.02,
+    "image": "./images/junior-suite.jpg"
   },
   {
     "number": 8,
@@ -447,7 +471,8 @@ let juniorSuites = [
     "bidet": false,
     "bedSize": "king",
     "numBeds": 1,
-    "costPerNight": 261.26
+    "costPerNight": 261.26,
+    "image": "./images/junior-suite.jpg"
   }
 ]
 
@@ -461,6 +486,7 @@ let newTestBooking = {
 
 module.exports = {
   testCustomerData,
+  testUsernames,
   testRoomData,
   testBookingData,
   testBookings,

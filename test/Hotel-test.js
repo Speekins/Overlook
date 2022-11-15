@@ -3,7 +3,7 @@ import Customer from '../src/classes/customer'
 import Hotel from '../src/classes/hotel'
 import {
   testBookings, noneAvailable, filteredByDate,
-  juniorSuites, testCustomerData, testRoomData, testBookingData
+  juniorSuites, testCustomerData, testUsernames, testRoomData, testBookingData
 } from '../src/data/testData'
 const expect = chai.expect
 
@@ -40,30 +40,38 @@ describe('hotel', () => {
     expect(hotel.date).to.equal(date)
   })
 
-  it('should know the current time', () => {
-    let date = new Date()
-    let time = date.getTime()
+  it('should have a list of all usernames', () => {
 
-    expect(hotel.time).to.equal(time)
+    expect(hotel.usernames).to.eql(testUsernames)
   })
 
-  it('should know the current date and time in milliseconds', () => {
-    let exactTime = Date.now()
+  it('should have a list of currently available rooms', () => {
+    hotel.date = "2022/12/22"
+    let availableRooms = hotel.getAvailableRooms()
 
-    expect(hotel.exactTime).to.equal(exactTime)
+    expect(availableRooms).to.eql([1, 2, 3, 4, 6, 7, 8, 9, 10])
+  })
+
+  it('should know the hotel\'s revenue for today', () => {
+    hotel.date = "2022/12/22"
+    hotel.getAvailableRooms()
+    let revenue = hotel.getTodaysRevenue()
+  
+    expect(revenue).to.equal(340.17)
+  })
+
+  it('should know the percentage of rooms currently occupied', () => {
+    hotel.date = "2022/12/22"
+    hotel.getAvailableRooms()
+    let percent = hotel.calculatePercentOccupation()
+
+    expect(percent).to.equal('10.00%')
   })
 
   it('should be able to make a new booking', () => {
     let newBooking = hotel.makeBooking(1, 7, "2023/06/28")
     let post = { "userID": 1, "date": "2023/06/28", "roomNumber": 7 }
     expect(newBooking).to.eql(post)
-  })
-
-  it('should have a list of bookings for the current day', () => {
-    hotel.date = '2022/02/06'
-    let todaysBookings = hotel.getTodaysBookings()
-
-    expect(todaysBookings[0]).to.eql(testBookings[5])
   })
 
   it('should search for rooms by a given date', () => {
@@ -87,7 +95,7 @@ describe('hotel', () => {
     let date = '2022/10/01'
     let result = hotel.searchByDate(date)
 
-    expect(result).to.equal('Selected date is in the past.')
+    expect(result).to.equal('Selected date is in the past or not in mm/dd/yyyy format.')
   })
 
   it('should apologize if no rooms are available on selected date', () => {

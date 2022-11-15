@@ -16,6 +16,7 @@ import './images/overlook-banner2.jpg'
 import './images/overlook-banner3.jpg'
 import './images/overlook-banner4.jpg'
 
+//<<<<---------------------------------------Global Variables--------------------------------------->>>>
 let allURL = ['http://localhost:3001/api/v1/customers', 'http://localhost:3001/api/v1/bookings', 'http://localhost:3001/api/v1/rooms']
 let allCustomers
 let allBookings
@@ -25,6 +26,7 @@ let currentCustomer
 let searchedDate
 let searchedCustomer
 
+//<<<<---------------------------------------Query Selectors--------------------------------------->>>>
 let loginSection = document.getElementById('login-section')
 let mainHeader = document.getElementById('main-header')
 let main = document.getElementById('main')
@@ -47,14 +49,28 @@ let dashboardH2 = document.getElementById('dashboard-h2')
 let searchH2 = document.getElementById('search-h2')
 let customerSearchSection = document.getElementById('customer-search-section')
 let customerSearch = document.getElementById('customer-search')
-let customerSearchButton = document.getElementById('customer-search')
 let searchInputs = document.getElementById('search-inputs')
 let backToSearchButton = document.getElementById('back-to-search')
-let bookButtons
-let deleteButtons
-let viewCustomerBooking
-let managerBook
 let roomsAvailable
+
+
+//<<<<------------------------------------------Event Listeners------------------------------------------>>>>
+addEventListener('load', () => {
+  fetchAll(allURL)
+    .then(data => {
+      allCustomers = data[0].customers
+      allBookings = data[1].bookings
+      allRooms = data[2].rooms
+    })
+    .then(() => {
+      hotel = new Hotel(allBookings, allCustomers, allRooms)
+      selectDate.value = formatTodaysDate()
+      selectDate.min = formatTodaysDate()
+    })
+    .catch(error => {
+      errorResponse(error, loginSection)
+    })
+})
 
 document.addEventListener('keypress', event => {
   if (event.key === "Enter") {
@@ -81,9 +97,7 @@ signInButton.addEventListener('click', () => {
 
 customerSearch.addEventListener('keyup', (e) => {
   let entry = e.target.value
-  showCustomer(searchByName(entry))
-  viewCustomerBooking = document.getElementsByClassName('show-customer-bookings')
-  managerBook = document.getElementsByClassName('customer-bookings')
+  showCustomers(findCustomer(entry))
 })
 
 historyButton.addEventListener('click', () => {
@@ -102,7 +116,6 @@ searchButton.addEventListener('click', () => {
   searchedDate = selectDate.value.replaceAll('-', '/')
   let searchResult = hotel.searchByDate(searchedDate)
   showSearchResult(searchResult)
-  bookButtons = document.getElementsByClassName('book-it')
 })
 
 searchSection.addEventListener('click', (e) => {
@@ -112,7 +125,6 @@ searchSection.addEventListener('click', (e) => {
     showCustomerBookings(searchedCustomer.bookings)
     hide(customerSearchSection)
     show(backToSearchButton)
-    deleteButtons = document.getElementsByClassName('delete')
   } else if (target.classList.contains('manager-book')) {
     searchedCustomer = findCustomer(target.id)
     searchSection.innerHTML = ''
@@ -156,16 +168,10 @@ function successfulPost(date) {
 }
 
 backToSearchButton.addEventListener('click', () => {
-  showCustomer(searchByName(customerSearch.value))
+  showCustomers(findCustomer(customerSearch.value))
   hide(backToSearchButton, searchInputs)
   show(customerSearchSection)
 })
-
-function findCustomer(id) {
-  id = Number(id)
-  let customer = hotel.customers.find(customer => customer.id === id)
-  return customer
-}
 
 filterRoomType.addEventListener('input', (e) => {
   if (filterRoomType.value !== 'Filter Rooms') {
@@ -188,21 +194,7 @@ clearFilterButton.addEventListener('click', () => {
   showSearchResult(searchResult)
 })
 
-
-addEventListener('load', () => {
-  fetchAll(allURL)
-    .then(data => {
-      allCustomers = data[0].customers
-      allBookings = data[1].bookings
-      allRooms = data[2].rooms
-    })
-    .then(() => {
-      hotel = new Hotel(allBookings, allCustomers, allRooms)
-      selectDate.value = formatTodaysDate()
-      selectDate.min = formatTodaysDate()
-    })
-})
-
+//<<<<------------------------------------------Fetch API------------------------------------------>>>>
 function postNewBooking(body) {
   fetch('http://localhost:3001/api/v1/bookings', {
     method: 'POST',
@@ -211,9 +203,17 @@ function postNewBooking(body) {
       'Content-Type': 'application/json'
     }
   })
-    .then(response => response.json())
+    .then(response => {
+      if (response.ok === false) {
+        throw Error(response.statusText)
+      }
+      return response.json()
+    })
     .then(() => fetchAll(allURL))
     .then(data => {
+      if (data.ok === false) {
+        throw Error(data.statusText)
+      }
       allBookings = data[1].bookings
       allCustomers = data[0].customers
     })
@@ -221,6 +221,8 @@ function postNewBooking(body) {
       hotel = new Hotel(allBookings, allCustomers, allRooms)
       successfulPost(searchedDate)
     })
+    .catch(error => errorResponse(error, searchSection))
+
 }
 
 function deleteBooking(id) {
@@ -230,8 +232,16 @@ function deleteBooking(id) {
       'Content-type': 'application/json'
     }
   })
+    .then(response => {
+      if (response.ok === false) {
+        throw Error(response.statusText)
+      }
+    })
     .then(() => fetchAll(allURL))
     .then(data => {
+      if (data.ok === false) {
+        throw Error(data.statusText)
+      }
       allBookings = data[1].bookings
       allCustomers = data[0].customers
     })
@@ -239,13 +249,41 @@ function deleteBooking(id) {
       hotel = new Hotel(allBookings, allCustomers, allRooms)
       searchSection.innerHTML = `<h1>Booking successfully deleted for ${searchedCustomer.name}!</h1>`
       setTimeout(() => {
-        showCustomer(searchByName(customerSearch.value))
+        loadManagerDashboard()
+        showCustomers(findCustomer(customerSearch.value))
         hide(backToSearchButton)
         show(customerSearchSection)
       }, 3000)
     })
+    .catch(error => errorResponse(error, searchSection))
 }
 
+function fetchUser(user) {
+  let id = user.slice(8)
+  fetchData(`http://localhost:3001/api/v1/customers/${id}`)
+    .then(data => {
+      currentCustomer = new Customer(data, hotel.bookings)
+    })
+    .then(() => loadUserDashboard())
+    .catch(error => errorResponse(error, bookingSection))
+}
+
+function errorResponse(error, section) {
+  if (error instanceof TypeError) {
+    warning(section, 'There was a problem on our end...?')
+    return
+  } else if (error instanceof ReferenceError) {
+    warning(section, 'There was a problem somewhere else... I think.')
+    return
+  } else if (error instanceof SyntaxError) {
+    warning(section, 'Something was spelled wrong?')
+    return
+  } else {
+    warning(section, 'There appears to be a bit of a problem.')
+  }
+}
+
+//<<<<------------------------------------------Utility Functions------------------------------------------>>>>
 function hide(...elements) {
   elements.forEach(element => {
     element.classList.add('hidden')
@@ -256,6 +294,37 @@ function show(...elements) {
   elements.forEach(element => {
     element.classList.remove('hidden')
   })
+}
+
+function warning(section, string) {
+  section.innerHTML = `<p class="warning">${string}</p>`
+}
+
+function updateData() {
+  hotel = new Hotel(allBookings, allCustomers, allRooms)
+  currentCustomer = hotel.customers.find(customer => customer.id === currentCustomer.id)
+}
+
+function resetDOM() {
+  searchSection.innerHTML = ''
+  bookingSection.innerHTML = ''
+}
+
+function formatTodaysDate() {
+  let formatedDate = hotel.date.replaceAll('/', '-')
+  return formatedDate
+}
+
+function validateUser(username, password) {
+  return (hotel.usernames.includes(username) || username === 'manager')
+    && password === 'overlook2021'
+}
+
+//<<<<------------------------------------------Customer Dashboard------------------------------------------>>>>
+function loadUserDashboard() {
+  name.innerText = currentCustomer.name.split(' ')[0]
+  totalAmount.innerText = `$${currentCustomer.amountSpent}`
+  showBookings(currentCustomer.bookings)
 }
 
 function showBookings(data) {
@@ -302,52 +371,14 @@ function showSearchResult(result) {
   })
 }
 
-function warning(section, string) {
-  section.innerHTML = `<p class="warning">${string}</p>`
-}
-
-function updateData() {
-  hotel = new Hotel(allBookings, allCustomers, allRooms)
-  currentCustomer = hotel.customers.find(customer => customer.id === currentCustomer.id)
-}
-
-function resetDOM() {
-  searchSection.innerHTML = ''
-  bookingSection.innerHTML = ''
-}
-
-function formatTodaysDate() {
-  let formatedDate = hotel.date.replaceAll('/', '-')
-  return formatedDate
-}
-
-function validateUser(username, password) {
-  return (hotel.usernames.includes(username) || username === 'manager')
-    && password === 'overlook2021'
-}
-
-function fetchUser(user) {
-  let id = user.slice(8)
-  fetchData(`http://localhost:3001/api/v1/customers/${id}`)
-    .then(data => currentCustomer = new Customer(data, hotel.bookings))
-    .then(() => loadUserDashboard())
-}
-
-function loadUserDashboard() {
-  name.innerText = currentCustomer.name.split(' ')[0]
-  totalAmount.innerText = `$${currentCustomer.amountSpent}`
-  showBookings(currentCustomer.bookings)
-}
-
+//<<<<------------------------------------------Manager Dashboard------------------------------------------>>>>
 function loadManagerDashboard() {
   resetDOM()
   mainHeader.style.backgroundImage = "url('./images/overlook-banner2.jpg')"
   mainHeader.style.backgroundPosition = "50% 60%"
   hide(loginSection, historyButton, amountSpent, searchInputs)
   show(main, mainHeader, customerSearchSection)
-  showCustomer(hotel.customers)
-  // searchButton.classList.add('manager')
-  // searchSection.classList.add('manager')
+  showCustomers(hotel.customers)
   dashboardH2.innerText = 'Today\'s Snapshot'
   searchH2.innerText = 'Customer Search'
   name.innerText = 'Manager'
@@ -355,6 +386,7 @@ function loadManagerDashboard() {
 }
 
 function populateTodaysSnapshot() {
+  bookingSection.innerHTML = ''
   bookingSection.innerHTML +=
     `<div class="booking-tile snapshot">
     <h3>Rooms Available</h3>
@@ -374,18 +406,21 @@ function populateTodaysSnapshot() {
 
 function populateRoomsAvailable() {
   let roomsAvailable = document.getElementById('rooms-available')
-  console.log(hotel.availableRooms)
   hotel.availableRooms.forEach(roomNum => {
     roomsAvailable.innerHTML += `<p>Room ${roomNum} |</p>`
   })
 }
 
-function searchByName(string) {
-  string = string.toLowerCase()
-  return hotel.customers.filter(customer => customer.name.toLowerCase().includes(string))
+function findCustomer(idOrName) {
+  let customer = hotel.customers.find(customer => customer.id === Number(idOrName))
+  if (!customer) {
+    let name = idOrName.toLowerCase()
+    return hotel.customers.filter(customer => customer.name.toLowerCase().includes(name))
+  }
+  return customer
 }
 
-function showCustomer(customers) {
+function showCustomers(customers) {
   if (!customers.length) {
     customers = hotel.customers
   }
