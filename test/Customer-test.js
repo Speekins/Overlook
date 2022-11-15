@@ -1,6 +1,5 @@
 import chai from 'chai'
 import Customer from '../src/classes/customer'
-import Booking from '../src/classes/booking'
 import {
   testBookings, customerBookings,
   oldBookings, testCustomerData
@@ -54,11 +53,5 @@ describe('customer', () => {
     customer2.calculateAmountSpent()
 
     expect(customer2.amountSpent).to.equal(0)
-  })
-
-  it.skip('should be able to make new bookings', () => {
-    customer.bookNewDate(new Booking(testBookings[10]))
-
-    expect(customer.bookings[customer.bookings.length - 1]).to.eql(testBookings[11])
   })
 })

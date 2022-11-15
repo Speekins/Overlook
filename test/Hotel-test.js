@@ -59,13 +59,6 @@ describe('hotel', () => {
     expect(newBooking).to.eql(post)
   })
 
-  it('should have a list of bookings for the current day', () => {
-    hotel.date = '2022/02/06'
-    let todaysBookings = hotel.getTodaysBookings()
-
-    expect(todaysBookings[0]).to.eql(testBookings[5])
-  })
-
   it('should search for rooms by a given date', () => {
     let date = "2023/12/15"
     let date2 = "2023/11/30"
@@ -87,7 +80,7 @@ describe('hotel', () => {
     let date = '2022/10/01'
     let result = hotel.searchByDate(date)
 
-    expect(result).to.equal('Selected date is in the past.')
+    expect(result).to.equal('Selected date is in the past or not in mm/dd/yyyy format.')
   })
 
   it('should apologize if no rooms are available on selected date', () => {
