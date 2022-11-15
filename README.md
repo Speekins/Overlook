@@ -1,28 +1,27 @@
 # Overlook Hotel Application Project
 
 ### Customer Dashboard
-
+![overlook-customer-view](https://user-images.githubusercontent.com/74210902/201991735-5693cf60-de76-4200-ad16-e8a2f8b341f0.gif)
 
 ### Manager Dashboard
+![overlook-manager-view](https://user-images.githubusercontent.com/74210902/201993967-9ba9f6fc-dd33-48b2-b36c-c5a6251c2928.gif)
 
 ### Abstract
-Our fully remote team created a recipe site that presents users with an array of recipe cards which they can filter and search through by the type of recipe they are looking for while saving recipes to their "My Recipes" view. When viewing a recipe, users will be informed if they have the required ingredients in their pantry with the option to add them. There is a "My Recipes" view where users can review their bookmarked recipes and add any needed ingredients to their pantry. Users will find the site to be thoughtfully-designed, intuitive, and responsive to various screen sizes. 
+The fictional Overlook Hotel website allows customers to log in and see their upcoming reservations, past reservations, and book a new reservation for themselves. Additionally, the customer is shown how much in total they have spent at the Overlook.
+The Overlook's manager can also log in to view the manager dashboard. The dashboard gives a snapshot of the day including how many of the 25 rooms are currently available, the percent of rooms booked for the day, and how much revenue the hotel is bringing in for the day. The manager is also able to search for any customer by their first name, view the customers upcoming reservations, and book new reservations or delete reservations for that customer
 
-This team project took place in the second term of the Turing front-end software engineering program and required students to synthesize all the technical and project management skills we have honed over the past weeks to create a fully functioning site from the design phase to production in four weeks. This project required extensive research to determine and implement new technologies to make the product surpass expectations.
-
-### Feature Spotlight
-In order to provide users with an expanded view of any recipe, we researched and determined MicroModal.js to be the best solution. We successfully implemented MicroModal as seen in the above gif. Users are able to see in red and green which ingredients they will need to add before cooking the selected recipe. This view is dynamic and guides the user if they are able to proceed with cooking the selected recipe—thus removing those ingredients from their pantry—or if they still need to add more ingredients beforehand.
+This solo project was created as the final project in the second module (of four) of the Turing front-end software engineering program. This project is the culmination of gained experience and knowledge over the past six weeks listed under the `Technologies` heading below.
 
 ### Contributors
 [Spencer Haka](https://github.com/Speekins)
 
 ### Research and Documentation 
 Developed Design: 
+<img width="1407" alt="image" src="https://user-images.githubusercontent.com/74210902/201999070-0ee74a87-c12c-47c7-bc93-ec86d19d9d23.png">
 
 
 Agile/Scrum project board created and managed via GitHub Projects:
-
-
+<img width="1415" alt="image" src="https://user-images.githubusercontent.com/74210902/201999248-886a5cf0-25d8-43c4-a6a2-d01e09171e3b.png">
 
 
 ### Technologies
