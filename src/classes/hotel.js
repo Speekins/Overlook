@@ -8,8 +8,6 @@ class Hotel {
     this.bookings = this.instantiateBookings(bookingsData)
     this.customers = this.instantiateCustomers(customersData)
     this.date = this.getCurrentDate()
-    this.time = this.getCurrentTime()
-    this.exactTime = Date.now()
     this.availableRooms = this.getAvailableRooms()
     this.todaysRevenue = this.getTodaysRevenue()
     this.percentOccupation = this.calculatePercentOccupation()
@@ -58,11 +56,6 @@ class Hotel {
     return `${year}/${month}/${day}`
   }
 
-  getCurrentTime() {
-    let date = new Date()
-    return date.getTime()
-  }
-
   makeBooking(userID, roomNumber, date) {
     return { "userID": userID, "date": date, "roomNumber": roomNumber }
   }
@@ -81,7 +74,7 @@ class Hotel {
   calculatePercentOccupation() {
     let occupiedRooms = this.getOccupiedRooms().length
     let percent = ((occupiedRooms / this.rooms.length) * 100).toFixed(2)
-    return `${percent} %`
+    return `${percent}%`
   }
 
   getTodaysRevenue() {

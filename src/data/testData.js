@@ -41,6 +41,10 @@ let testCustomerData = [
   }
 ]
 
+let testUsernames = ['customer1', 'customer2', 'customer3', 'customer4',
+  'customer5', 'customer6', 'customer7', 'customer8', 'customer9', 'customer10']
+
+
 let testRoomData = [
   {
     "number": 1,
@@ -482,6 +486,7 @@ let newTestBooking = {
 
 module.exports = {
   testCustomerData,
+  testUsernames,
   testRoomData,
   testBookingData,
   testBookings,

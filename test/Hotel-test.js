@@ -3,7 +3,7 @@ import Customer from '../src/classes/customer'
 import Hotel from '../src/classes/hotel'
 import {
   testBookings, noneAvailable, filteredByDate,
-  juniorSuites, testCustomerData, testRoomData, testBookingData
+  juniorSuites, testCustomerData, testUsernames, testRoomData, testBookingData
 } from '../src/data/testData'
 const expect = chai.expect
 
@@ -40,17 +40,32 @@ describe('hotel', () => {
     expect(hotel.date).to.equal(date)
   })
 
-  it('should know the current time', () => {
-    let date = new Date()
-    let time = date.getTime()
+  it('should have a list of all usernames', () => {
 
-    expect(hotel.time).to.equal(time)
+    expect(hotel.usernames).to.eql(testUsernames)
   })
 
-  it('should know the current date and time in milliseconds', () => {
-    let exactTime = Date.now()
+  it('should have a list of currently available rooms', () => {
+    hotel.date = "2022/12/22"
+    let availableRooms = hotel.getAvailableRooms()
 
-    expect(hotel.exactTime).to.equal(exactTime)
+    expect(availableRooms).to.eql([1, 2, 3, 4, 6, 7, 8, 9, 10])
+  })
+
+  it('should know the hotel\'s revenue for today', () => {
+    hotel.date = "2022/12/22"
+    hotel.getAvailableRooms()
+    let revenue = hotel.getTodaysRevenue()
+  
+    expect(revenue).to.equal(340.17)
+  })
+
+  it('should know the percentage of rooms currently occupied', () => {
+    hotel.date = "2022/12/22"
+    hotel.getAvailableRooms()
+    let percent = hotel.calculatePercentOccupation()
+
+    expect(percent).to.equal('10.00%')
   })
 
   it('should be able to make a new booking', () => {

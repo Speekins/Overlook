@@ -65,7 +65,7 @@ addEventListener('load', () => {
     .then(() => {
       hotel = new Hotel(allBookings, allCustomers, allRooms)
       selectDate.value = formatTodaysDate()
-      selectDate.min = formatTodaysDate();
+      selectDate.min = formatTodaysDate()
     })
 })
 
