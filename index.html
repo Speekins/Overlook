@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700&display=swap"
+    rel="stylesheet">
+  <title>Overlook Hotel</title>
+</head>
+
+<body>
+  <section id="login-section" class="login-section">
+    <img class="login-logo" src="./images/overlook_white.png">
+    <label for="username">Username</label>
+    <input type="text" id="username" name="username">
+    <label for="username">Password</label>
+    <input type="password" id="password" name="password">
+    <button aria-label="sign in" id="sign-in" class="sign-in">Sign In</button>
+    <p class="warning hidden" id="login-warning">The username or password is incorrect</p>
+  </section>
+  <header class="main-header hidden" id="main-header">
+    <div class="header-content">
+      <img src="./images/overlook_white.png" id="logo"
+        alt="overlook hotel logo">
+      <h1>Welcome, <span id="name"></span>!</h1>
+    </div>
+  </header>
+  <main class="hidden" id="main">
+    <section class="my-bookings" id="my-bookings">
+      <header class="my-bookings-header">
+        <div class="div1">
+          <h2 id="dashboard-h2">My Bookings</h2>
+        </div>
+        <div class="div2">
+          <button class="history-button" id="history-button">Booking
+            History</button>
+          <button class="back-to-bookings hidden" id="back-to-bookings">Go
+            Back</button>
+        </div>
+      </header>
+      <div class="bookings-section" id="bookings-section">
+
+      </div>
+      <footer class="amount-spent-section" id="amount-spent">
+        <span class="show-amount">Total Spent: <span
+            id="total-amount"></span></span>
+      </footer>
+    </section>
+    <section class="search-section" id="search-section">
+      <header class="search-section-header">
+        <h2 id="search-h2">Search</h2>
+        <div class="search-inputs" id="search-inputs">
+          <div class="date-select" id="date-select">
+            <input type="date" id="select-date" aria-label="select date" name="select-date" value=""
+              min="">
+            <button for="select-date" aria-label="search date" id="search-button">Search</button>
+          </div>
+          <div class="room-filter" id="room-filter">
+            <select name="filter" class="filter-room-type"
+              id="filter-room-type" aria-label="filter room by type">
+              <option value="Filter Rooms">Filter Rooms</option>
+              <option value="Single Room">Single Room</option>
+              <option value="Suite">Suite</option>
+              <option value="Junior Suite">Junior Suite</option>
+              <option value="Residential Suite">Residential Suite</option>
+            </select>
+            <button class="clear-filter disabled" id="clear-filter" disabled>Clear Filter</button>
+          </div>
+        </div>
+        <div id="customer-search-section" class="customer-search-section hidden">
+          <label for="customer-search">Name Search</label>
+          <input type="search" aria-label="search for customer" class="customer-search" id="customer-search">
+        </div>
+        <button class="go-back hidden" id="back-to-search">Go Back</button>
+      </header>
+      <div class="search-content" id="search-content">
+      </div>
+    </section>
+  </main>
+
+  <script src="bundle.js"></script>
+
+</body>
+
+</html>
